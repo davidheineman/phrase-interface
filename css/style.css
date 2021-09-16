@@ -113,6 +113,10 @@ span {
     background-color: #fff;
 }
 
-body {
-    margin-bottom: 128px;
+body, .container {
+    margin-bottom: 200px;
+}
+
+.container {
+    padding-bottom: 200px;
 }

@@ -185,7 +185,7 @@ function displayAnnotation(i) {
     }
 
     // Controls toggling
-    $('.btn-outline-success, .btn-outline-danger').removeClass('active');
+    $('.btn-outline-success, .btn-outline-danger, .btn-outline-warning').removeClass('active');
 }
 
 $("#highlight-toggle").click(function() {
@@ -224,11 +224,11 @@ function highlihgtNextLine(amt=-1, inc=true) {
 // Generate Y/N box for each question
 var questions = document.getElementsByClassName('question');
 for (var i = 0; i < questions.length; i++) {
-    var qhtml = "<div class='btn-group btn-group-toggle' data-toggle='buttons'><label class='btn btn-outline-success'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked>Yes</label><label class='btn btn-outline-danger'><input type='radio' name='options' id='option2' class='radio-hide' autocomplete='off'>No</label></div>"
+    var qhtml = "<div class='btn-group btn-group-toggle' data-toggle='buttons'><label class='btn btn-outline-success'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked>YES</label><label class='btn btn-outline-warning'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked=''>NA</label><label class='btn btn-outline-danger'><input type='radio' name='options' id='option2' class='radio-hide' autocomplete='off'>NO</label></div>"
     questions[i].innerHTML = qhtml + questions[i].innerHTML;
 }
 
 // Controls toggling
-$('.btn-outline-success, .btn-outline-danger').click(function() {
+$('.btn-outline-success, .btn-outline-danger, .btn-outline-warning').click(function() {
     $(this).addClass('active');
 })
