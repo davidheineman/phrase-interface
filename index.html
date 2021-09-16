@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <link href="css/style.css" rel="stylesheet">
+        <title>Substitute Annotator</title>
+    </head>
+
+    <body>
+        <div class="container" id='paragraph-container'>
+            <h1>Monolingual Phrasal Annotator</h1>
+            <!-- <h4>Paragraph no. <span id='pg-num'></span></h4> -->
+            <p class='lead'>Select a phrase to rate</p>
+            <p class='lead'>
+                Rephrase = <span class='rp'>Purple</span>
+                <br />
+                Addition = <span class='add'>Green</span>
+                <br />
+                Deletion = <span class='del'>Red</span>
+                <br />
+                Re-order of Words = <span class='reword'>Gray</span>
+                <br />
+                No edit = <span class=''>White</span>
+            </p>
+            <div class='card'>
+                <div class="jumbotron jumbotron-fluid cwi-box card-body">
+                    <h4 id='in-container'></h4>
+                    <br /><br />
+                    <div id='line-container'></div>
+                    <br /><br />
+                    <h4 id='out-container'></h4>
+                </div>
+            </div>
+            <br />
+            <div class='an-box card'>
+                <div class='an-container'>
+                    <div class='a-container'>
+                        <h3 class='left-a' id='left-a'>launching missions</h3>
+                        <div class='line' id='line-a'></div>
+                        <h3 class='right-a' id='right-a'>launchers</h3>
+                    </div>
+                    <div class='question-container'>
+                        <div class='question' id='q1'>
+                            <p>Does the edit simplify the <span>wording of the phrase</span>?</p>
+                        </div>
+                        
+                        <div class='question' id='q2'>
+                            <p>Does the edit simplify the <span>syntax of the sentence</span>?</p>
+                        </div>
+
+                        <div class='question' id='q3'>
+                            <p>Does the edit simplify the <span>concepts being communicated by the sentence</span>?</p>
+                        </div>
+                        <br />
+                        <div class='question' id='q4'>
+                            <p>Does the edit introduce a <span>grammar/fluency error</span>?</p>
+                        </div>
+
+                        <div class='question' id='q5'>
+                            <p>Does the edit introduce <span>new information</span> unrelated to the sentence?</p>
+                        </div>
+
+                        <div class='question' id='q6'>
+                            <!-- Only should appear if the above answer is "yes" -->
+                            <p>Does the edit introduce a <span>factual error</span>?</p>
+                        </div>
+                    </div>
+
+                    <button id='submit' type="button" class="btn btn-outline-dark">NEXT</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="js/script.js"></script>

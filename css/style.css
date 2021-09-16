@@ -1,0 +1,106 @@
+.container {
+    margin-top: 32px;
+}
+h1 {
+    margin-bottom: 16px;
+}
+h4 {
+    text-align: center;
+}
+.rp {
+    background-color: #e5a2ff;
+}
+.add {
+    background-color: #a5ffa2;
+}
+.del {
+    background-color: #ffa2b9;
+}
+.reword {
+    background-color: #cacaca;
+}
+
+span {
+    left:200px;
+    top:200px;
+    width:50px;
+    height:50px;
+}
+span {
+    left:20px;
+    top:20px;
+    width:50px;
+    height:40px;
+}
+.line{
+    position:absolute;
+    width:3px;
+    background-color:rgb(233, 233, 233);
+}
+.bolded{
+    font-weight: bold;
+}
+.bolded-line {
+    background-color: #000;
+    z-index: 99;
+}
+
+.an-container button {
+    margin-top: 16px;
+    float: right;
+}
+
+.an-box {
+    width: 40%;
+    margin: 0 auto;
+    border-width: 3px;
+    border-color: #2b2b2b;
+}
+
+.an-container {
+    padding: 16px;
+}
+
+.an-container p {
+    margin-bottom: 0px;
+}
+
+.question-container span {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.radio-hide {
+    display:none;
+}
+
+.btn-group-toggle label {
+    font-size: 12px;
+    padding: 2px 6px 2px 6px;
+    height: 27px;
+    margin-bottom: 8px;
+}
+
+.btn-group {
+    margin-right: 8px;
+}
+
+.left-a {
+    float:left;
+}
+
+.right-a {
+    float:right;
+}
+.a-container {
+    display: flow-root;
+    margin-bottom: 16px;
+}
+
+.question {
+    display: flex;
+}
+
+#line-a {
+    background-color: #000;
+}
