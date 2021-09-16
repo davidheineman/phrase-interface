@@ -177,9 +177,28 @@ function displayAnnotation(i) {
         $('#line-a').addClass('radio-hide');
     }
 
+    // Hides highlight for other annotations
+    if ($("#highlight-toggle").is(':checked')){
+        $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') });
+        $('#' + i + 'b').removeClass('hide-highlight');
+        $('#' + r[i][0][0] + 'e').removeClass('hide-highlight');
+    }
+
     // Controls toggling
     $('.btn-outline-success, .btn-outline-danger').removeClass('active');
 }
+
+$("#highlight-toggle").click(function() {
+    if ($("#highlight-toggle").is(':checked')){
+        $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') });
+        $('#' + a_counter + 'b').removeClass('hide-highlight');
+        $('#' + r[a_counter][0][0] + 'e').removeClass('hide-highlight');
+    } else {
+        $('#in-container > span, #out-container > span').each(function () { $(this).removeClass('hide-highlight') });
+    }
+});
+
+// Initialize the annotation interface
 displayAnnotation(a_counter);
 
 $('#submit').click(function() {

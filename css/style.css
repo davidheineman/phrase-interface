@@ -35,13 +35,13 @@ span {
 .line{
     position:absolute;
     width:3px;
-    background-color:rgb(233, 233, 233);
+    background-color:rgb(243 243 243);
 }
 .bolded{
     font-weight: bold;
 }
 .bolded-line {
-    background-color: #000;
+    background-color: #383838;
     z-index: 99;
 }
 
@@ -107,4 +107,8 @@ span {
 
 #line-a {
     background-color: #000;
+}
+
+.hide-highlight {
+    background-color: #fff;
 }
