@@ -145,6 +145,7 @@ for(var i = 0; i < r.length; i++) { // This should loop for the amount of lines,
 }
 
 function displayAnnotation(i) {
+    $(".question").removeClass("question-hide");
     $('#left-a').html('<span class=' + getColor(r[i][1]) + '>' + r[i][2] + '</span>');
     if (r[i][0].length > 0) {
         $('#right-a').html('<span class=' + getColor(o[r[i][0][0]][1]) + '>' + o[r[i][0][0]][2] + '</span>');
@@ -159,7 +160,18 @@ function displayAnnotation(i) {
         $('#' + i + 'b').addClass('bolded');
         $('#' + r[i][0][0] + 'e').addClass('bolded');
         $('#' + i + 'l').addClass('bolded-line');
+
+        // If the edit needs questions hidden, hide them
+        if (r[i][1] == 3) {
+            $('#q5, #q6, #q7, #q8').addClass('question-hide')
+        } else if (r[i][1] == 4) {
+            $('#q7, #q8').addClass('question-hide')
+        } else if (r[i][1] == 0) {
+            $('.question').addClass('question-hide')
+        }
     } else {
+        // Only happens on deletions
+        $('#q5, #q6').addClass('question-hide')
         $('#' + i + 'b').addClass('bolded');
         $('#right-a').html('');
         $('#line-a').addClass('radio-hide');
@@ -171,7 +183,10 @@ function displayAnnotation(i) {
 displayAnnotation(a_counter);
 
 $('#submit').click(function() {
-    highlihgtNextLine();
+    // Doesn't allow clicking for the next once we're done annotating
+    if (a_counter < r.length - 1){
+        highlihgtNextLine();
+    }
 });
 
 function highlihgtNextLine(amt=-1, inc=true) {
