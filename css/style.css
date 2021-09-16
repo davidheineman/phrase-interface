@@ -112,3 +112,7 @@ span {
 .hide-highlight {
     background-color: #fff;
 }
+
+body {
+    margin-bottom: 128px;
+}
