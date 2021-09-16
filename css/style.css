@@ -72,6 +72,10 @@ span {
 
 .radio-hide {
     display:none;
+} 
+
+.question-hide {
+    display:none !important;
 }
 
 .btn-group-toggle label {
