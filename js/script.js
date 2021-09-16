@@ -164,6 +164,9 @@ function displayAnnotation(i) {
         $('#right-a').html('');
         $('#line-a').addClass('radio-hide');
     }
+
+    // Controls toggling
+    $('.btn-outline-success, .btn-outline-danger').removeClass('active');
 }
 displayAnnotation(a_counter);
 
@@ -184,9 +187,14 @@ function highlihgtNextLine(amt=-1, inc=true) {
     displayAnnotation(a_counter);
 }
 
+// Generate Y/N box for each question
 var questions = document.getElementsByClassName('question');
-
 for (var i = 0; i < questions.length; i++) {
     var qhtml = "<div class='btn-group btn-group-toggle' data-toggle='buttons'><label class='btn btn-outline-success'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked>Yes</label><label class='btn btn-outline-danger'><input type='radio' name='options' id='option2' class='radio-hide' autocomplete='off'>No</label></div>"
     questions[i].innerHTML = qhtml + questions[i].innerHTML;
 }
+
+// Controls toggling
+$('.btn-outline-success, .btn-outline-danger').click(function() {
+    $(this).addClass('active');
+})
