@@ -116,3 +116,9 @@ span {
 body, .container {
     margin-bottom: 200px;
 }
+
+
+/* TEMPORARY PLEASE DELETE */
+.container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 80%;
+}
