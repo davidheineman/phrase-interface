@@ -230,7 +230,8 @@ function displayAnnotation(i) {
     }
 
     // Hides highlight for other annotations
-    if ($("#highlight-toggle").is(':checked')){
+    let enableHighlightToggle = false;
+    if ($("#highlight-toggle").is(':checked') || !enableHighlightToggle){
         $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') });
         $('#' + i + 'b').removeClass('hide-highlight');
         $('#' + r[i][0][0] + 'e').removeClass('hide-highlight');
@@ -238,7 +239,45 @@ function displayAnnotation(i) {
 
     // Controls toggling
     $('.btn-outline-success, .btn-outline-danger, .btn-outline-warning').removeClass('active');
+
+    // If there's no change, skip annotation
+    if (r[i][1] == 0) {
+        moveToNextAnnotation();
+    }
 }
+
+
+function moveToNextAnnotation() {
+    // Doesn't allow clicking for the next once we're done annotating
+    if (a_counter < r.length - 1){
+        highlihgtNextLine();
+    } else {
+        sentID++;
+        out = getSentence(sentID);
+        r = out[0];
+        o = out[1];
+        a_counter = 0;
+        initializeInterface();
+        displayAnnotation(a_counter);
+    }
+}
+
+function highlihgtNextLine(amt=-1, inc=true) {
+    $('#' + a_counter + 'b').removeClass('bolded');
+    $('#' + r[a_counter][0][0] + 'e').removeClass('bolded');
+    $('#' + a_counter + 'l').removeClass('bolded-line');
+    if (inc) {
+        a_counter++;
+    } else {
+        a_counter = amt;
+    }
+    
+    displayAnnotation(a_counter);
+}
+
+$('#submit').click(function() {
+    moveToNextAnnotation();
+});
 
 $("#highlight-toggle").click(function() {
     if ($("#highlight-toggle").is(':checked')){
@@ -248,6 +287,17 @@ $("#highlight-toggle").click(function() {
     } else {
         $('#in-container > span, #out-container > span').each(function () { $(this).removeClass('hide-highlight') });
     }
+});
+
+// Controls toggling
+$('.btn-outline-success, .btn-outline-danger, .btn-outline-warning').click(function() {
+    $(this).addClass('active');
+})
+
+// Readjust lines on window resize
+$( window ).resize(function() {
+    initializeInterface();
+    displayAnnotation(a_counter);
 });
 
 // Initialize the annotation interface
@@ -269,37 +319,3 @@ for (var i = 0; i < questions.length; i++) {
     
     questions[i].innerHTML = qhtml + questions[i].innerHTML;
 }
-
-// Controls toggling
-$('.btn-outline-success, .btn-outline-danger, .btn-outline-warning').click(function() {
-    $(this).addClass('active');
-})
-
-$('#submit').click(function() {
-    // Doesn't allow clicking for the next once we're done annotating
-    if (a_counter < r.length - 1){
-        highlihgtNextLine();
-    } else {
-        sentID++;
-        out = getSentence(sentID);
-        r = out[0];
-        o = out[1];
-        a_counter = 0;
-        initializeInterface();
-        displayAnnotation(a_counter);
-    }
-});
-
-function highlihgtNextLine(amt=-1, inc=true) {
-    $('#' + a_counter + 'b').removeClass('bolded');
-    $('#' + r[a_counter][0][0] + 'e').removeClass('bolded');
-    $('#' + a_counter + 'l').removeClass('bolded-line');
-    if (inc) {
-        a_counter++;
-    } else {
-        a_counter = amt;
-    }
-    
-    displayAnnotation(a_counter);
-}
-
