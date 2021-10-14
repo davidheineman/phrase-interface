@@ -155,7 +155,7 @@ function initializeInterface() {
     // Draws lines and creates :hover between types of edits
     for(var i = 0; i < r.length; i++) { // This should loop for the amount of lines, which could be more if some phrases have multiple lines
         $('#line-container').append("<div class='line' id='" + i + "l'></div>");
-        if(r[i][0].length > 0) {
+        if(r[i][0].length > 0 && r[i][1] != 0) {
             let elem = r[i][0][0];
             let ielem = i;
             $('#' + ielem + 'b, #' + elem + 'e, #' + ielem + 'l').hover(function() {
