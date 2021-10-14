@@ -127,6 +127,12 @@ body, .container {
     font-size: 20px;
 }
 
+.lead {
+    font-size: 16px;
+    font-weight: 400;
+    font-style: italic;
+}
+
 
 /* TEMPORARY PLEASE DELETE */
 .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
