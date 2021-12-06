@@ -1,0 +1,131 @@
+[
+    {
+        "ID": 0,
+        "Original": [
+            [[6], 3, "Some of Russian"], 
+            [[], 2, "space agency's"], 
+            [[7], 1, "launching missions"], 
+            [[1], 1, "used"], 
+            [[0], 0, "hydranize"], 
+            [[2], 1, "as fuel for"], 
+            [[3], 0, "the"], 
+            [[4], 1, "initial"], 
+            [[], 2, "few"], 
+            [[5], 0, "stages"]
+        ],
+        "Simplified": [
+            [0, 0, "Hydranize"], 
+            [1, 1, "is used"],
+            [2, 1, "to power"], 
+            [3, 0, "the"], 
+            [4, 1, "early"], 
+            [5, 0, "stages"], 
+            [6, 3, "of some Russian"], 
+            [7, 1, "launchers"]
+        ]
+    },
+    {
+        "ID": 1,
+        "Original": [
+            [[0], 0, "The Seattle kids"], 
+            [[1], 1, "petitioned"], 
+            [[2], 1, "Washington state"], 
+            [[3], 0, "last year to"], 
+            [[4], 1, "adopt stricter"], 
+            [[5], 1, "science-based regulations"], 
+            [[], 2, "to protect them"], 
+            [[6], 0, "against climate change."]
+        ],
+        "Simplified": [
+            [0, 0, "The Seattle kids"], 
+            [1, 1, "asked"], 
+            [2, 1, "the Washington state"], 
+            [3, 0, "last year to"], 
+            [4, 1, "take tougher"], 
+            [5, 1, "rules"], 
+            [6, 0, "against climate change"]
+        ]
+    },
+    {
+        "ID": 2,
+        "Original": [
+            [[0], 0, "“It’s more of a family than living outside,” said Jessica Konczal,"], 
+            [[1], 1, "33, whose husband is Sgt. Matthew Konczal."]
+        ],
+        "Simplified": [
+            [0, 0, "“It’s more of a family than living outside,” said Jessica Konczal,"], 
+            [1, 1, "one of the protesters."]
+        ]
+    },
+    {
+        "ID": 3,
+        "Original": [
+            [[1], 1, "Parental feedback"], 
+            [[2], 0, "on the menu"], 
+            [[3], 1, "additions"], 
+            [[0], 0, "so far,"], 
+            [[], 2, "from some of the early adopter markets,"], 
+            [[4], 1, "has been “phenomenal,”"], 
+            [[5], 1, "Leverton said."]
+        ],
+        "Simplified":[
+            [0, 0, "So far,"], 
+            [1, 1, "parents parents have feedback"], 
+            [2, 0, "on the menu"], 
+            [3, 1, "changes"], 
+            [4, 1, "has been a great deal,"], 
+            [5, 1, "he added"]
+        ]
+    },
+    {
+        "ID": 4,
+        "Original": [
+            [[0], 0, "One of the"], 
+            [[1], 1, "device’s inventors"], 
+            [[2], 1, "explained to"], 
+            [[3], 0, "the president that the"], 
+            [[4], 1, "machine was a prototype."]
+        ],
+        "Simplified": [
+            [0, 0, "One of the"], 
+            [1, 1, "inventors"], 
+            [2, 1, "told"], 
+            [3, 0, "the president that the"], 
+            [4, 1, "first design was a design."]
+        ]
+    },
+    {
+        "ID": 5,
+        "Original": [
+            [[1], 1, "Complex Sea slugs"], 
+            [[], 2, "dubbed sacoglossans"], 
+            [[2], 0, "are some of the most"], 
+            [[3], 1, "remarkable"], 
+            [[4], 1, "biological burglars"], 
+            [[5], 0, "on the planet."]
+        ],
+        "Simplified": [
+            [0, 4, "Scientists say"], 
+            [1, 1, "these"], 
+            [2, 0, "are some of the most"], 
+            [3, 1, "interesting"], 
+            [4, 1, "creatures"], 
+            [5, 0, "on the planet"]
+        ]
+    },
+    {
+        "ID": 5,
+        "Original": [
+            [[0], 0, "They float in and out of"], 
+            [[1], 1, "formations"], 
+            [[2], 0, "that combine"], 
+            [[3], 1, "the underwater world with the stage."]
+        ],
+        "Simplified": [
+            [0, 0, "They float in and out of"],
+            [1, 1, "places"], 
+            [2, 0, "that combine"], 
+            [3, 1, "stage with the underwater."]
+        ]
+    }
+]

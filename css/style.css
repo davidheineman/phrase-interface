@@ -45,6 +45,13 @@ span {
     background-color: #383838;
     z-index: 99;
 }
+.bolded-perm {
+    font-weight: bold !important; 
+}
+.bolded-line-perm {
+    background-color: #383838 !important;
+    z-index: 99;
+}
 
 .an-container button {
     margin-top: 16px;
@@ -93,14 +100,16 @@ span {
 
 .left-a {
     float:left;
+    margin-bottom: 25px;
 }
 
 .right-a {
     float:right;
+    margin-bottom: 25px;
 }
+
 .a-container {
     display: flow-root;
-    margin-bottom: 16px;
 }
 
 .question {

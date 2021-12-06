@@ -1,14 +1,38 @@
+// TODO FIX ADJUST LINE ALGO TO SUPPORT WHEN TEXT GOES TO NEW LINE
+
 function adjustLine(from, to, line, horizontal=false){
-    if(horizontal) {
-        var fT = from.offsetTop  + from.offsetHeight/2;
-        var tT = to.offsetTop + to.offsetHeight/2;
-        var fL = from.offsetLeft - 8;
-        var tL = to.offsetLeft + to.offsetWidth + 8;
-    } else {
+    // We assume we're making a horizontal line
+    var fT = from.offsetTop  + from.offsetHeight/2;
+    var tT = to.offsetTop + to.offsetHeight/2;
+    var fL = from.offsetLeft - 8;
+    var tL = to.offsetLeft + to.offsetWidth + 8;
+    
+    if (!horizontal || fT != tT) {
+        // This is saying if we're trying to draw a horizontal line
+        // and the elements aren't actually horizontal, then we'll draw
+        // a line from the first element to the second assuming the first
+        // is above the second
+        if (horizontal && fT != tT) {
+            var temp = from;
+            from = to;
+            to = temp;
+        }
+
+        // Calculates bounding box for line
         var fT = from.offsetTop  + from.offsetHeight;
         var tT = to.offsetTop;
         var fL = from.offsetLeft + from.offsetWidth/2;
         var tL = to.offsetLeft   + to.offsetWidth/2;
+
+        // Check for edge case of an element being on multiple lines
+        if (from.offsetHeight > 30) {
+            var fL = from.offsetLeft + 8;
+            var fT = from.offsetTop  + from.offsetHeight / 2;
+        }
+        if (to.offsetHeight > 30) {
+            var tT = to.offsetTop;
+            var tL = to.offsetLeft + 8;
+        }
     }
     var CA   = Math.abs(tT - fT);
     var CO   = Math.abs(tL - fL);
@@ -48,66 +72,9 @@ function adjustLine(from, to, line, horizontal=false){
 // 3 = Re-order of Wording
 // 4 = Addition
 
-function getSentence(id) {
-    // Newsela Gold Example
-    if (id == 0) {
-        var r = [
-            [[6], 3, "Some of Russian"], 
-            [[], 2, "space agency's"], 
-            [[7], 1, 'launching missions'], 
-            [[1], 1, 'used'], 
-            [[0], 0, 'hydranize'], 
-            [[2], 1, 'as fuel for'], 
-            [[3], 0, 'the'], 
-            [[4], 1, 'initial'], 
-            [[], 2, 'few'], 
-            [[5], 0, 'stages']
-        ];
-        var o = [
-            [0, 0, 'Hydranize'], 
-            [1, 1, 'is used'],
-            [2, 1, 'to power'], 
-            [3, 0, 'the'], 
-            [4, 1, 'early'], 
-            [5, 0, 'stages'], 
-            [6, 3, 'of some Russian'], 
-            [7, 1, 'launchers']
-        ];
-    }
-
-    if (id == 1) {
-        // Good
-        var r = [[[0], 0, 'The Seattle kids'], [[1], 1, 'petitioned'], [[2], 1, 'Washington state'], [[3], 0, 'last year to'], [[4], 1, 'adopt stricter'], [[5], 1, 'science-based regulations'], [[], 2, 'to protect them'], [[6], 0, 'against climate change.']]; var o = [[0, 0, 'The Seattle kids'], [1, 1, 'asked'], [2, 1, 'the Washington state'], [3, 0, 'last year to'], [4, 1, 'take tougher'], [5, 1, 'rules'], [6, 0, 'against climate change']];
-    }
-
-    if (id == 2) {
-        // Hallucination
-        var r = [[[0], 0, '“It’s more of a family than living outside,” said Jessica Konczal,'], [[1], 1, '33, whose husband is Sgt. Matthew Konczal.']]; var o = [[0, 0, '“It’s more of a family than living outside,” said Jessica Konczal,'], [1, 1, 'one of the protesters.']];
-    }
-    
-    if (id == 3) {
-        // Fluency Error
-        var r = [[[1], 1, 'Parental feedback'], [[2], 0, 'on the menu'], [[3], 1, 'additions'], [[0], 0, 'so far,'], [[], 2, 'from some of the early adopter markets,'], [[4], 1, 'has been “phenomenal,”'], [[5], 1, 'Leverton said.']]; var o = [[0, 0, 'So far,'], [1, 1, 'parents parents have feedback'], [2, 0, 'on the menu'], [3, 1, 'changes'], [4, 1, 'has been a great deal,'], [5, 1, 'he added']];
-    }
-    
-    if (id == 4) {
-        // Bad Substitution
-        var r = [[[0], 0, 'One of the'], [[1], 1, 'device’s inventors'], [[2], 1, 'explained to'], [[3], 0, 'the president that the'], [[4], 1, 'machine was a prototype.']]; var o = [[0, 0, 'One of the'], [1, 1, 'inventors'], [2, 1, 'told'], [3, 0, 'the president that the'], [4, 1, 'first design was a design.']];
-    }
-    
-    if (id == 5) {
-        // Anaphora Resolution & Entailment
-        var r = [[[1], 1, 'Complex Sea slugs'], [[], 2, 'dubbed sacoglossans'], [[2], 0, 'are some of the most'], [[3], 1, 'remarkable'], [[4], 1, 'biological burglars'], [[5], 0, 'on the planet.']]; var o = [[0, 4, 'Scientists say'], [1, 1, 'these'], [2, 0, 'are some of the most'], [3, 1, 'interesting'], [4, 1, 'creatures'], [5, 0, 'on the planet']];
-    }
-    
-    if (id == 6) {
-        // Human Reference Error
-        var r = [[[0], 0, 'They float in and out of'], [[1], 1, 'formations'], [[2], 0, 'that combine'], [[3], 1, 'the underwater world with the stage.']]; var o = [[0, 0, 'They float in and out of'], [1, 0, 'places'], [2, 0, 'that combine'], [3, 0, 'stage with the underwater.']];
-    }
-
-    return [r, o];
+function getSentence(id, data) {
+    return [data[id].Original, data[id].Simplified]
 }
-
 
 function highlightWord(sent, i, holder_id) {
     if (sent[i][1] == 1) {
@@ -133,6 +100,7 @@ function getColor(id) {
     }
 }
 
+// Called each time a new sentence is displayed
 function initializeInterface() {
     // Reset Containers
     $('#in-container').html("");
@@ -150,14 +118,19 @@ function initializeInterface() {
         highlightWord(o, i, 'e');
     }
 
+    // a_counter = How many annotations have been submitted
     var a_counter = 0;
 
     // Draws lines and creates :hover between types of edits
-    for(var i = 0; i < r.length; i++) { // This should loop for the amount of lines, which could be more if some phrases have multiple lines
+    for(var i = 0; i < r.length; i++) {
         $('#line-container').append("<div class='line' id='" + i + "l'></div>");
+
+        // Only draws lines for rephrases
         if(r[i][0].length > 0 && r[i][1] != 0) {
             let elem = r[i][0][0];
             let ielem = i;
+
+            // Highlight on hover logic
             $('#' + ielem + 'b, #' + elem + 'e, #' + ielem + 'l').hover(function() {
                 $('#' + ielem + 'b').addClass('bolded');
                 $('#' + elem + 'e').addClass('bolded');
@@ -170,16 +143,19 @@ function initializeInterface() {
                 }
             });
 
+            // Switch to this rephrase on click
             $('#' + ielem + 'b, #' + elem + 'e, #' + ielem + 'l').click(function () {
                 highlihgtNextLine(amt=ielem, inc=false);
             });
 
+            // Draw the line between two rephrases
             adjustLine(
                 document.getElementById(i + 'b'), 
                 document.getElementById(r[i][0][0] + 'e'),
                 document.getElementById(i + 'l')
             );
-        } else {
+        } else if (r[i][1] != 0) {
+            // Add ability to hover over deletions & additions
             let ielem = i;
             $('#' + ielem + 'b').hover(function() {
                 $('#' + ielem + 'b').addClass('bolded');
@@ -189,6 +165,7 @@ function initializeInterface() {
                 }
             });
 
+            // Add ability to click deletions / additions
             $('#' + ielem + 'b').click(function () {
                 highlihgtNextLine(amt=ielem, inc=false);
             });
@@ -197,9 +174,14 @@ function initializeInterface() {
 }
 
 function displayAnnotation(i) {
+    // Remove permanent bolding everywhere
+    $('.bolded-perm').removeClass('bolded-perm');
+    $('.bolded-line-perm').removeClass('bolded-line-perm');
+
     $(".question").removeClass("question-hide");
     $('#left-a').html('<span class=' + getColor(r[i][1]) + '>' + r[i][2] + '</span>');
     if (r[i][0].length > 0) {
+        // On a rephrase, display both phrases and a line connecting them
         $('#right-a').html('<span class=' + getColor(o[r[i][0][0]][1]) + '>' + o[r[i][0][0]][2] + '</span>');
         $('#line-a').removeClass('radio-hide');
         adjustLine(
@@ -209,9 +191,10 @@ function displayAnnotation(i) {
             horizontal=true
         );
 
-        $('#' + i + 'b').addClass('bolded');
-        $('#' + r[i][0][0] + 'e').addClass('bolded');
-        $('#' + i + 'l').addClass('bolded-line');
+        // Add permanent bolding for the line connecting
+        $('#' + i + 'b').addClass('bolded-perm');
+        $('#' + r[i][0][0] + 'e').addClass('bolded-perm');
+        $('#' + i + 'l').addClass('bolded-line-perm');
 
         // If the edit needs questions hidden, hide them
         if (r[i][1] == 3) {
@@ -222,7 +205,7 @@ function displayAnnotation(i) {
             $('.question').addClass('question-hide')
         }
     } else {
-        // Only happens on deletions
+        // On an addition / deletion, only display that one phrase
         $('#q5, #q6').addClass('question-hide')
         $('#' + i + 'b').addClass('bolded');
         $('#right-a').html('');
@@ -239,6 +222,12 @@ function displayAnnotation(i) {
 
     // Controls toggling
     $('.btn-outline-success, .btn-outline-danger, .btn-outline-warning').removeClass('active');
+    $('.btn-outline-success, .btn-outline-danger, .btn-outline-warning').click(function() {
+        if ($($(this).siblings()[0]).hasClass('active')) {
+            $($($(this).siblings()[0])).removeClass('active');
+        }
+        $(this).addClass('active');
+    });
 
     // If there's no change, skip annotation
     if (r[i][1] == 0) {
@@ -246,23 +235,55 @@ function displayAnnotation(i) {
     }
 }
 
-
 function moveToNextAnnotation() {
     // Doesn't allow clicking for the next once we're done annotating
     if (a_counter < r.length - 1){
         highlihgtNextLine();
-    } else {
+    } else if (sentID < data.length) {
+        // store answers to sentence before moving on to next sentence
+        answersForAllSent.push(answers);
+        answers = [];
+
+        console.log(answersForAllSent);
+
+        // Reset interface
         sentID++;
-        out = getSentence(sentID);
+        out = getSentence(sentID, data);
         r = out[0];
         o = out[1];
         a_counter = 0;
         initializeInterface();
         displayAnnotation(a_counter);
+
+        if (sentID == data.length) {
+            
+        }
+    } else {
+        // Done with annotations, download data
+
     }
 }
 
 function highlihgtNextLine(amt=-1, inc=true) {
+    // Store current answers before moving on (unless we've just initialized the sent)
+    // $($('#q1').children()[0]).children()
+    let questions = $($('.question-container')[0]).children();
+    let scores = []
+    for (let i = 0; i < questions.length; i++) {
+        let a = null
+        if ($($($(questions[i]).children()[0]).children()[0]).hasClass('active')) {
+            // Get YES button value 
+            a = 1
+        } else if ($($($(questions[i]).children()[0]).children()[1]).hasClass('active')) {
+            // Get NO button value
+            a = 0
+        }
+        scores.push(a);
+    }
+
+    currDict[a_counter] = [scores, r[a_counter], o[a_counter]];
+    answers.push(currDict);
+
     $('#' + a_counter + 'b').removeClass('bolded');
     $('#' + r[a_counter][0][0] + 'e').removeClass('bolded');
     $('#' + a_counter + 'l').removeClass('bolded-line');
@@ -273,6 +294,20 @@ function highlihgtNextLine(amt=-1, inc=true) {
     }
     
     displayAnnotation(a_counter);
+}
+
+function getJSON() {
+    var resp = [];
+    $.ajax({
+        url: 'data/input.json',
+        type: 'GET',
+        dataType: 'json',
+        async: false,
+        success : function(data) {
+            resp.push(data);
+        }
+    })
+    return resp[0];
 }
 
 $('#submit').click(function() {
@@ -289,25 +324,13 @@ $("#highlight-toggle").click(function() {
     }
 });
 
-// Controls toggling
-$('.btn-outline-success, .btn-outline-danger, .btn-outline-warning').click(function() {
-    $(this).addClass('active');
-})
+
 
 // Readjust lines on window resize
 $( window ).resize(function() {
     initializeInterface();
     displayAnnotation(a_counter);
 });
-
-// Initialize the annotation interface
-var sentID = 1;
-var out = getSentence(sentID);
-var r = out[0];
-var o = out[1];
-var a_counter = 0;
-initializeInterface();
-displayAnnotation(a_counter);
 
 // Generate Y/N box for each question
 var questions = document.getElementsByClassName('question');
@@ -319,3 +342,18 @@ for (var i = 0; i < questions.length; i++) {
     
     questions[i].innerHTML = qhtml + questions[i].innerHTML;
 }
+
+
+var answersForAllSent = []; // Stores outputs over all sentences
+var answers = [];           // Stores outputs over sentences
+var currDict = {}           // Store outputs for each edit
+
+// Initialize the annotation interface
+var sentID = 1;
+var data = getJSON();
+var out = getSentence(sentID, data); 
+var r = out[0];
+var o = out[1];
+var a_counter = 0;
+initializeInterface();
+displayAnnotation(a_counter);
