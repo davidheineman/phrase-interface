@@ -1,4 +1,47 @@
-// TODO FIX ADJUST LINE ALGO TO SUPPORT WHEN TEXT GOES TO NEW LINE
+// Key: 
+// 0 = No edit
+// 1 = Rephrase
+// 2 = Deletion
+// 3 = Re-order of Wording
+// 4 = Addition
+
+function getSentence(id, data) {
+    return [data[id].Original, data[id].Simplified]
+}
+
+function highlightWord(sent, i, holder_id) {
+    $('#' + i + holder_id).addClass(getColor(sent[i][1]));
+}
+
+function getColor(id) {
+    if (id == 1) {
+        return 'rp'
+    } else if (id == 2) {
+        return 'del'
+    } else if (id == 3) {
+        return 'reword'
+    } else if (id == 4) {
+        return 'add'
+    }
+}
+
+// Called each time a new sentence is displayed
+function initializeInterface() {
+    // Reset variables
+    out = getSentence(sent_id, data);
+    r = out[0];
+    o = out[1];
+    phrase_idx = 0;     // phrase_idx = How many annotations have been submitted
+    currDict = {};
+
+    // Reset Containers
+    $('#in-container').html("");
+    $('#out-container').html("");
+    $('#line-container').html("");
+
+    // Draw interface
+    drawInterface();
+}
 
 function adjustLine(from, to, line, horizontal=false){
     // We assume we're making a horizontal line
@@ -65,48 +108,7 @@ function adjustLine(from, to, line, horizontal=false){
     line.style.height = H + 'px';
 }
 
-// Key: 
-// 0 = No edit
-// 1 = Rephrase
-// 2 = Deletion
-// 3 = Re-order of Wording
-// 4 = Addition
-
-function getSentence(id, data) {
-    return [data[id].Original, data[id].Simplified]
-}
-
-function highlightWord(sent, i, holder_id) {
-    if (sent[i][1] == 1) {
-        $('#' + i + holder_id).addClass('rp')
-    } else if (sent[i][1] == 2) {
-        $('#' + i + holder_id).addClass('del')
-    } else if (sent[i][1] == 3) {
-        $('#' + i + holder_id).addClass('reword')
-    } else if (sent[i][1] == 4) {
-        $('#' + i + holder_id).addClass('add')
-    }
-}
-
-function getColor(id) {
-    if (id == 1) {
-        return 'rp'
-    } else if (id == 2) {
-        return 'del'
-    } else if (id == 3) {
-        return 'reword'
-    } else if (id == 4) {
-        return 'add'
-    }
-}
-
-// Called each time a new sentence is displayed
-function initializeInterface() {
-    // Reset Containers
-    $('#in-container').html("");
-    $('#out-container').html("");
-    $('#line-container').html("");
-
+function drawInterface() {
     // Generate and highlight sentences
     for(var i = 0; i < r.length; i++) {
         $('#in-container').append('<span ' + 'id="' + i + 'b"' + ' >' + r[i][2] + '</span> ');
@@ -117,9 +119,6 @@ function initializeInterface() {
         $('#out-container').append('<span ' + 'id="' + i + 'e"' + ' >' + o[i][2] + '</span> ');
         highlightWord(o, i, 'e');
     }
-
-    // a_counter = How many annotations have been submitted
-    var a_counter = 0;
 
     // Draws lines and creates :hover between types of edits
     for(var i = 0; i < r.length; i++) {
@@ -136,7 +135,7 @@ function initializeInterface() {
                 $('#' + elem + 'e').addClass('bolded');
                 $('#' + ielem + 'l').addClass('bolded-line');
             }, function() {
-                if (a_counter != ielem) {
+                if (phrase_idx != ielem) {
                     $('#' + ielem + 'b').removeClass('bolded');
                     $('#' + elem + 'e').removeClass('bolded');
                     $('#' + ielem + 'l').removeClass('bolded-line');
@@ -145,7 +144,7 @@ function initializeInterface() {
 
             // Switch to this rephrase on click
             $('#' + ielem + 'b, #' + elem + 'e, #' + ielem + 'l').click(function () {
-                highlihgtNextLine(amt=ielem, inc=false);
+                highlightNextPhrase(amt=ielem);
             });
 
             // Draw the line between two rephrases
@@ -160,29 +159,31 @@ function initializeInterface() {
             $('#' + ielem + 'b').hover(function() {
                 $('#' + ielem + 'b').addClass('bolded');
             }, function() {
-                if (a_counter != ielem) {
+                if (phrase_idx != ielem) {
                     $('#' + ielem + 'b').removeClass('bolded');
                 }
             });
 
             // Add ability to click deletions / additions
             $('#' + ielem + 'b').click(function () {
-                highlihgtNextLine(amt=ielem, inc=false);
+                highlightNextPhrase(amt=ielem);
             });
         }
     }
 }
 
-function displayAnnotation(i) {
+function displayPhrase(i) {
+    let phrase_mapping = r[i][0], phrase_type = r[i][1], phrase_content = r[i][2];
+
     // Remove permanent bolding everywhere
     $('.bolded-perm').removeClass('bolded-perm');
     $('.bolded-line-perm').removeClass('bolded-line-perm');
 
     $(".question").removeClass("question-hide");
-    $('#left-a').html('<span class=' + getColor(r[i][1]) + '>' + r[i][2] + '</span>');
-    if (r[i][0].length > 0) {
+    $('#left-a').html('<span class=' + getColor(phrase_type) + '>' + phrase_content + '</span>');
+    if (phrase_mapping.length > 0) {
         // On a rephrase, display both phrases and a line connecting them
-        $('#right-a').html('<span class=' + getColor(o[r[i][0][0]][1]) + '>' + o[r[i][0][0]][2] + '</span>');
+        $('#right-a').html('<span class=' + getColor(o[phrase_mapping[0]][1]) + '>' + o[phrase_mapping[0]][2] + '</span>');
         $('#line-a').removeClass('radio-hide');
         adjustLine(
             document.getElementById('right-a'), 
@@ -193,15 +194,15 @@ function displayAnnotation(i) {
 
         // Add permanent bolding for the line connecting
         $('#' + i + 'b').addClass('bolded-perm');
-        $('#' + r[i][0][0] + 'e').addClass('bolded-perm');
+        $('#' + phrase_mapping[0] + 'e').addClass('bolded-perm');
         $('#' + i + 'l').addClass('bolded-line-perm');
 
         // If the edit needs questions hidden, hide them
-        if (r[i][1] == 3) {
+        if (phrase_type == 3) {
             $('#q5, #q6, #q7, #q8').addClass('question-hide')
-        } else if (r[i][1] == 4) {
+        } else if (phrase_type == 4) {
             $('#q7, #q8').addClass('question-hide')
-        } else if (r[i][1] == 0) {
+        } else if (phrase_type == 0) {
             $('.question').addClass('question-hide')
         }
     } else {
@@ -217,7 +218,7 @@ function displayAnnotation(i) {
     if ($("#highlight-toggle").is(':checked') || !enableHighlightToggle){
         $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') });
         $('#' + i + 'b').removeClass('hide-highlight');
-        $('#' + r[i][0][0] + 'e').removeClass('hide-highlight');
+        $('#' + phrase_mapping[0] + 'e').removeClass('hide-highlight');
     }
 
     // Controls toggling
@@ -230,32 +231,30 @@ function displayAnnotation(i) {
     });
 
     // If there's no change, skip annotation
-    if (r[i][1] == 0) {
+    if (phrase_type == 0) {
         moveToNextAnnotation();
     }
 }
 
 function moveToNextAnnotation() {
-    // Doesn't allow clicking for the next once we're done annotating
-    if (a_counter < r.length - 1){
-        highlihgtNextLine();
-    } else if (sentID < data.length) {
-        // store answers to sentence before moving on to next sentence
-        answersForAllSent.push(answers);
-        answers = [];
+    // Store answers to current phrase
+    currDict[phrase_idx] = getPhraseAnswers();
 
+    // Doesn't allow clicking for the next once we're done annotating
+    if (phrase_idx < r.length - 1){
+        highlightNextPhrase();
+    } else if (sent_id < data.length) {
+        // store answers to sentence before moving on to next sentence
+        answersForAllSent[sent_id] = currDict;
         console.log(answersForAllSent);
 
         // Reset interface
-        sentID++;
-        out = getSentence(sentID, data);
-        r = out[0];
-        o = out[1];
-        a_counter = 0;
+        sent_id++;
         initializeInterface();
-        displayAnnotation(a_counter);
+        displayPhrase(phrase_idx);
 
-        if (sentID == data.length) {
+        // On the last sentence, change the "next" button text to submit
+        if (sent_id == data.length) {
             
         }
     } else {
@@ -264,9 +263,8 @@ function moveToNextAnnotation() {
     }
 }
 
-function highlihgtNextLine(amt=-1, inc=true) {
-    // Store current answers before moving on (unless we've just initialized the sent)
-    // $($('#q1').children()[0]).children()
+// Store current answers
+function getPhraseAnswers() {
     let questions = $($('.question-container')[0]).children();
     let scores = []
     for (let i = 0; i < questions.length; i++) {
@@ -281,19 +279,21 @@ function highlihgtNextLine(amt=-1, inc=true) {
         scores.push(a);
     }
 
-    currDict[a_counter] = [scores, r[a_counter], o[a_counter]];
-    answers.push(currDict);
+    return [scores, r[phrase_idx], o[phrase_idx]];
+}
 
-    $('#' + a_counter + 'b').removeClass('bolded');
-    $('#' + r[a_counter][0][0] + 'e').removeClass('bolded');
-    $('#' + a_counter + 'l').removeClass('bolded-line');
-    if (inc) {
-        a_counter++;
+function highlightNextPhrase(amt=-1) {
+    $('#' + phrase_idx + 'b').removeClass('bolded');
+    $('#' + r[phrase_idx][0][0] + 'e').removeClass('bolded');
+    $('#' + phrase_idx + 'l').removeClass('bolded-line');
+
+    if (amt == -1) {
+        phrase_idx++;
     } else {
-        a_counter = amt;
+        phrase_idx = amt;
     }
     
-    displayAnnotation(a_counter);
+    displayPhrase(phrase_idx);
 }
 
 function getJSON() {
@@ -317,8 +317,8 @@ $('#submit').click(function() {
 $("#highlight-toggle").click(function() {
     if ($("#highlight-toggle").is(':checked')){
         $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') });
-        $('#' + a_counter + 'b').removeClass('hide-highlight');
-        $('#' + r[a_counter][0][0] + 'e').removeClass('hide-highlight');
+        $('#' + phrase_idx + 'b').removeClass('hide-highlight');
+        $('#' + r[phrase_idx][0][0] + 'e').removeClass('hide-highlight');
     } else {
         $('#in-container > span, #out-container > span').each(function () { $(this).removeClass('hide-highlight') });
     }
@@ -329,7 +329,7 @@ $("#highlight-toggle").click(function() {
 // Readjust lines on window resize
 $( window ).resize(function() {
     initializeInterface();
-    displayAnnotation(a_counter);
+    displayPhrase(phrase_idx);
 });
 
 // Generate Y/N box for each question
@@ -344,16 +344,11 @@ for (var i = 0; i < questions.length; i++) {
 }
 
 
-var answersForAllSent = []; // Stores outputs over all sentences
-var answers = [];           // Stores outputs over sentences
-var currDict = {}           // Store outputs for each edit
-
 // Initialize the annotation interface
-var sentID = 1;
+var sent_id = 0;
 var data = getJSON();
-var out = getSentence(sentID, data); 
-var r = out[0];
-var o = out[1];
-var a_counter = 0;
+var answersForAllSent = {};             // Stores outputs over all sentences
+var out, r, o, phrase_idx, currDict;    // Stores answers, reference sent, generated sent, current phrase index and current sentence's annotations
+
 initializeInterface();
-displayAnnotation(a_counter);
+displayPhrase(phrase_idx);
