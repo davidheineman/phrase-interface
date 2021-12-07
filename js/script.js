@@ -34,11 +34,6 @@ function initializeInterface() {
     phrase_idx = 0;     // phrase_idx = How many annotations have been submitted
     currDict = {};
 
-    // Reset Containers
-    $('#in-container').html("");
-    $('#out-container').html("");
-    $('#line-container').html("");
-
     // Draw interface
     drawInterface();
 }
@@ -109,6 +104,11 @@ function adjustLine(from, to, line, horizontal=false){
 }
 
 function drawInterface() {
+    // Reset Containers
+    $('#in-container').html("");
+    $('#out-container').html("");
+    $('#line-container').html("");
+
     // Generate and highlight sentences
     for(var i = 0; i < r.length; i++) {
         $('#in-container').append('<span ' + 'id="' + i + 'b"' + ' >' + r[i][2] + '</span> ');
@@ -243,23 +243,22 @@ function moveToNextAnnotation() {
     // Doesn't allow clicking for the next once we're done annotating
     if (phrase_idx < r.length - 1){
         highlightNextPhrase();
-    } else if (sent_id < data.length) {
+
+        // On the phrase in the last sentence, change the "next" button text to submit
+        if (sent_id == data.length - 1 && phrase_idx == r.length - 1) {
+            $('#submit')[0].innerText = 'SUBMIT ALL';
+        }
+    } else if (sent_id < data.length - 1) {
         // store answers to sentence before moving on to next sentence
         answersForAllSent[sent_id] = currDict;
-        console.log(answersForAllSent);
 
         // Reset interface
         sent_id++;
         initializeInterface();
         displayPhrase(phrase_idx);
-
-        // On the last sentence, change the "next" button text to submit
-        if (sent_id == data.length) {
-            
-        }
     } else {
         // Done with annotations, download data
-
+        downloadData();
     }
 }
 
@@ -310,6 +309,17 @@ function getJSON() {
     return resp[0];
 }
 
+// Downloads output as .json file
+function downloadData() {
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(answersForAllSent));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "output.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
+
 $('#submit').click(function() {
     moveToNextAnnotation();
 });
@@ -324,11 +334,9 @@ $("#highlight-toggle").click(function() {
     }
 });
 
-
-
 // Readjust lines on window resize
-$( window ).resize(function() {
-    initializeInterface();
+$(window).resize(function() {
+    drawInterface();
     displayPhrase(phrase_idx);
 });
 
