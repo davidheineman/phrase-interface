@@ -228,6 +228,9 @@ function displayPhrase(i) {
             $($($(this).siblings()[0])).removeClass('active');
         }
         $(this).addClass('active');
+
+        // Remove invalid warning on the group of buttons
+        $($(this).parents()[0]).removeClass('btn-group-invalid');
     });
 
     // If there's no change, skip annotation
@@ -321,7 +324,22 @@ function downloadData() {
 }
 
 $('#submit').click(function() {
-    moveToNextAnnotation();
+    // Check to see if every questioned is answered
+    let valid = true;
+
+    if (checkInvalid) {
+        $('.btn-group').each(function() {
+            // It's invalid if: (1) the question isn't hidden, (2) "YES" has not been selected, and (3) "NO" has not been selected
+            if (!$($(this).parent()[0]).hasClass('question-hide') && !($(this.children[0]).hasClass('active') || $(this.children[1]).hasClass('active'))) {
+                valid = false;
+                $(this).addClass('btn-group-invalid');
+            }
+        });
+    }
+
+    if (valid) {
+        moveToNextAnnotation();
+    }
 });
 
 $("#highlight-toggle").click(function() {
@@ -357,6 +375,8 @@ var sent_id = 0;
 var data = getJSON();
 var answersForAllSent = {};             // Stores outputs over all sentences
 var out, r, o, phrase_idx, currDict;    // Stores answers, reference sent, generated sent, current phrase index and current sentence's annotations
+
+var checkInvalid = false;
 
 initializeInterface();
 displayPhrase(phrase_idx);

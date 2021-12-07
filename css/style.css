@@ -142,6 +142,21 @@ body, .container {
     font-style: italic;
 }
 
+.btn-group-invalid {
+    margin-bottom: 24px;
+}
+
+.btn-group-invalid:after {
+    content: 'Please select an answer';
+    font-size: 10px;
+    color: #dc3545;
+    line-height: 10px;
+    position: absolute;
+    top: 30px;
+    font-weight: 500;
+    width: 65px;
+    margin-bottom: 40px;
+}
 
 /* TEMPORARY PLEASE DELETE */
 .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
