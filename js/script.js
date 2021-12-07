@@ -1,3 +1,7 @@
+// TODO: ALLOW FOR ANNOTATING ADDITIONS
+// Edit displayPhrase to allow for this
+// After all the phrases from input -> output have been annotated, annotate additions
+
 // Key: 
 // 0 = No edit
 // 1 = Rephrase
@@ -32,7 +36,7 @@ function initializeInterface() {
     r = out[0];
     o = out[1];
     phrase_idx = 0;     // phrase_idx = How many annotations have been submitted
-    currDict = {};
+    sentence_answers = {};
 
     // Draw interface
     drawInterface();
@@ -241,9 +245,9 @@ function displayPhrase(i) {
 
 function moveToNextAnnotation() {
     // Store answers to current phrase
-    currDict[phrase_idx] = getPhraseAnswers();
+    sentence_answers[phrase_idx] = getPhraseAnswers();
 
-    // Doesn't allow clicking for the next once we're done annotating
+    // Either we move to the next phrase, the next sentence, or we download data
     if (phrase_idx < r.length - 1){
         highlightNextPhrase();
 
@@ -252,8 +256,8 @@ function moveToNextAnnotation() {
             $('#submit')[0].innerText = 'SUBMIT ALL';
         }
     } else if (sent_id < data.length - 1) {
-        // store answers to sentence before moving on to next sentence
-        answersForAllSent[sent_id] = currDict;
+        // Store answers to sentence before moving on to next sentence
+        all_answers[sent_id] = sentence_answers;
 
         // Reset interface
         sent_id++;
@@ -314,7 +318,7 @@ function getJSON() {
 
 // Downloads output as .json file
 function downloadData() {
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(answersForAllSent));
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(all_answers));
     var downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);
     downloadAnchorNode.setAttribute("download", "output.json");
@@ -373,8 +377,8 @@ for (var i = 0; i < questions.length; i++) {
 // Initialize the annotation interface
 var sent_id = 0;
 var data = getJSON();
-var answersForAllSent = {};             // Stores outputs over all sentences
-var out, r, o, phrase_idx, currDict;    // Stores answers, reference sent, generated sent, current phrase index and current sentence's annotations
+var all_answers = {};             // Stores outputs over all sentences
+var out, r, o, phrase_idx, sentence_answers;    // Stores answers, reference sent, generated sent, current phrase index and current sentence's annotations
 
 var checkInvalid = false;
 

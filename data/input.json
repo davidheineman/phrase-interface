@@ -2,26 +2,20 @@
     {
         "ID": 0,
         "Original": [
-            [[6], 3, "Some of Russian"], 
-            [[], 2, "space agency's"], 
-            [[7], 1, "launching missions"], 
-            [[1], 1, "used"], 
-            [[0], 0, "hydranize"], 
-            [[2], 1, "as fuel for"], 
-            [[3], 0, "the"], 
-            [[4], 1, "initial"], 
-            [[], 2, "few"], 
-            [[5], 0, "stages"]
+            [[1], 1, "Complex Sea slugs"], 
+            [[], 2, "dubbed sacoglossans"], 
+            [[2], 0, "are some of the most"], 
+            [[3], 1, "remarkable"], 
+            [[4], 1, "biological burglars"], 
+            [[5], 0, "on the planet."]
         ],
         "Simplified": [
-            [0, 0, "Hydranize"], 
-            [1, 1, "is used"],
-            [2, 1, "to power"], 
-            [3, 0, "the"], 
-            [4, 1, "early"], 
-            [5, 0, "stages"], 
-            [6, 3, "of some Russian"], 
-            [7, 1, "launchers"]
+            [0, 4, "Scientists say"], 
+            [1, 1, "these"], 
+            [2, 0, "are some of the most"], 
+            [3, 1, "interesting"], 
+            [4, 1, "creatures"], 
+            [5, 0, "on the planet"]
         ]
     },
     {
@@ -97,24 +91,30 @@
     {
         "ID": 5,
         "Original": [
-            [[1], 1, "Complex Sea slugs"], 
-            [[], 2, "dubbed sacoglossans"], 
-            [[2], 0, "are some of the most"], 
-            [[3], 1, "remarkable"], 
-            [[4], 1, "biological burglars"], 
-            [[5], 0, "on the planet."]
+            [[6], 3, "Some of Russian"], 
+            [[], 2, "space agency's"], 
+            [[7], 1, "launching missions"], 
+            [[1], 1, "used"], 
+            [[0], 0, "hydranize"], 
+            [[2], 1, "as fuel for"], 
+            [[3], 0, "the"], 
+            [[4], 1, "initial"], 
+            [[], 2, "few"], 
+            [[5], 0, "stages"]
         ],
         "Simplified": [
-            [0, 4, "Scientists say"], 
-            [1, 1, "these"], 
-            [2, 0, "are some of the most"], 
-            [3, 1, "interesting"], 
-            [4, 1, "creatures"], 
-            [5, 0, "on the planet"]
+            [0, 0, "Hydranize"], 
+            [1, 1, "is used"],
+            [2, 1, "to power"], 
+            [3, 0, "the"], 
+            [4, 1, "early"], 
+            [5, 0, "stages"], 
+            [6, 3, "of some Russian"], 
+            [7, 1, "launchers"]
         ]
     },
     {
-        "ID": 5,
+        "ID": 6,
         "Original": [
             [[0], 0, "They float in and out of"], 
             [[1], 1, "formations"], 
