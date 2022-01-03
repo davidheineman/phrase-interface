@@ -2,383 +2,383 @@
 // Edit displayPhrase to allow for this
 // After all the phrases from input -> output have been annotated, annotate additions
 
-// Key: 
+// Key:
 // 0 = No edit
 // 1 = Rephrase
 // 2 = Deletion
 // 3 = Re-order of Wording
 // 4 = Addition
 
-function getSentence(id, data) {
+function getSentence (id, data) {
     return [data[id].Original, data[id].Simplified]
 }
 
-function highlightWord(sent, i, holder_id) {
-    $('#' + i + holder_id).addClass(getColor(sent[i][1]));
+function highlightWord (sent, i, holderId) {
+    $('#' + i + holderId).addClass(getColor(sent[i][1]))
 }
 
-function getColor(id) {
-    if (id == 1) {
+function getColor (id) {
+    if (id === 1) {
         return 'rp'
-    } else if (id == 2) {
+    } else if (id === 2) {
         return 'del'
-    } else if (id == 3) {
+    } else if (id === 3) {
         return 'reword'
-    } else if (id == 4) {
+    } else if (id === 4) {
         return 'add'
     }
 }
 
 // Called each time a new sentence is displayed
-function initializeInterface() {
+function initializeInterface () {
     // Reset variables
-    out = getSentence(sent_id, data);
-    original = out[0];
-    simplification = out[1];
-    phrase_idx = 0;     // phrase_idx = How many annotations have been submitted
-    sentence_answers = {};
+    out = getSentence(sentId, data)
+    original = out[0]
+    simplification = out[1]
+    phraseIdx = 0 // phrase_idx = How many annotations have been submitted
+    sentenceAnswers = {}
 
     // Draw interface
-    drawInterface();
+    drawInterface()
 }
 
-function adjustLine(from, to, line, horizontal=false){
+function adjustLine (from, to, line, horizontal = false) {
     // We assume we're making a horizontal line
-    var fT = from.offsetTop  + from.offsetHeight/2;
-    var tT = to.offsetTop + to.offsetHeight/2;
-    var fL = from.offsetLeft - 8;
-    var tL = to.offsetLeft + to.offsetWidth + 8;
-    
-    if (!horizontal || fT != tT) {
+    let fT = from.offsetTop + from.offsetHeight / 2
+    let tT = to.offsetTop + to.offsetHeight / 2
+    let fL = from.offsetLeft - 8
+    let tL = to.offsetLeft + to.offsetWidth + 8
+
+    if (!horizontal || fT !== tT) {
         // This is saying if we're trying to draw a horizontal line
         // and the elements aren't actually horizontal, then we'll draw
         // a line from the first element to the second assuming the first
         // is above the second
-        if (horizontal && fT != tT) {
-            var temp = from;
-            from = to;
-            to = temp;
+        if (horizontal && fT !== tT) {
+            const temp = from
+            from = to
+            to = temp
         }
 
         // Calculates bounding box for line
-        var fT = from.offsetTop  + from.offsetHeight;
-        var tT = to.offsetTop;
-        var fL = from.offsetLeft + from.offsetWidth/2;
-        var tL = to.offsetLeft   + to.offsetWidth/2;
+        fT = from.offsetTop + from.offsetHeight
+        tT = to.offsetTop
+        fL = from.offsetLeft + from.offsetWidth / 2
+        tL = to.offsetLeft + to.offsetWidth / 2
 
         // Check for edge case of an element being on multiple lines
         if (from.offsetHeight > 30) {
-            var fL = from.offsetLeft + 8;
-            var fT = from.offsetTop  + from.offsetHeight / 2;
+            fL = from.offsetLeft + 8
+            fT = from.offsetTop + from.offsetHeight / 2
         }
         if (to.offsetHeight > 30) {
-            var tT = to.offsetTop;
-            var tL = to.offsetLeft + 8;
+            tT = to.offsetTop
+            tL = to.offsetLeft + 8
         }
     }
-    var CA   = Math.abs(tT - fT);
-    var CO   = Math.abs(tL - fL);
-    var H    = Math.sqrt(CA*CA + CO*CO);
-    var ANG  = 180 / Math.PI * Math.acos( CA/H );
+    const CA = Math.abs(tT - fT)
+    const CO = Math.abs(tL - fL)
+    const H = Math.sqrt(CA * CA + CO * CO)
+    let ANG = 180 / Math.PI * Math.acos(CA / H)
 
-    if(tT > fT){
-        var top  = (tT-fT)/2 + fT;
-    }else{
-        var top  = (fT-tT)/2 + tT;
+    let top, left
+    if (tT > fT) {
+        top = (tT - fT) / 2 + fT
+    } else {
+        top = (fT - tT) / 2 + tT
     }
-    if(tL > fL){
-        var left = (tL-fL)/2 + fL;
-    }else{
-        var left = (fL-tL)/2 + tL;
+    if (tL > fL) {
+        left = (tL - fL) / 2 + fL
+    } else {
+        left = (fL - tL) / 2 + tL
     }
 
-    if(( fT < tT && fL < tL) || ( tT < fT && tL < fL) || (fT > tT && fL > tL) || (tT > fT && tL > fL)){
-        ANG *= -1;
+    if ((fT < tT && fL < tL) || (tT < fT && tL < fL) || (fT > tT && fL > tL) || (tT > fT && tL > fL)) {
+        ANG *= -1
     }
-    top -= H/2;
+    top -= H / 2
 
-    line.style["-webkit-transform"] = 'rotate('+ ANG +'deg)';
-    line.style["-moz-transform"] = 'rotate('+ ANG +'deg)';
-    line.style["-ms-transform"] = 'rotate('+ ANG +'deg)';
-    line.style["-o-transform"] = 'rotate('+ ANG +'deg)';
-    line.style["-transform"] = 'rotate('+ ANG +'deg)';
-    line.style.top    = top + 'px';
-    line.style.left   = left + 'px';
-    line.style.height = H + 'px';
+    line.style['-webkit-transform'] = 'rotate(' + ANG + 'deg)'
+    line.style['-moz-transform'] = 'rotate(' + ANG + 'deg)'
+    line.style['-ms-transform'] = 'rotate(' + ANG + 'deg)'
+    line.style['-o-transform'] = 'rotate(' + ANG + 'deg)'
+    line.style['-transform'] = 'rotate(' + ANG + 'deg)'
+    line.style.top = top + 'px'
+    line.style.left = left + 'px'
+    line.style.height = H + 'px'
 }
 
-function drawInterface() {
+function drawInterface () {
     // Reset Containers
-    $('#in-container').html("");
-    $('#out-container').html("");
-    $('#line-container').html("");
+    $('#in-container').html('')
+    $('#out-container').html('')
+    $('#line-container').html('')
 
     // Generate and highlight sentences
     for (let i = 0; i < original.length; i++) {
-        $('#in-container').append('<span ' + 'id="' + i + 'b"' + ' >' + original[i][2] + '</span> ');
-        highlightWord(original, i, 'b');
+        $('#in-container').append('<span ' + 'id="' + i + 'b"' + ' >' + original[i][2] + '</span> ')
+        highlightWord(original, i, 'b')
     }
 
     for (let i = 0; i < simplification.length; i++) {
-        $('#out-container').append('<span ' + 'id="' + i + 'e"' + ' >' + simplification[i][2] + '</span> ');
-        highlightWord(simplification, i, 'e');
+        $('#out-container').append('<span ' + 'id="' + i + 'e"' + ' >' + simplification[i][2] + '</span> ')
+        highlightWord(simplification, i, 'e')
     }
 
     // Draws lines and creates :hover between types of edits
     for (let i = 0; i < original.length; i++) {
-        $('#line-container').append("<div class='line' id='" + i + "l'></div>");
+        $('#line-container').append("<div class='line' id='" + i + "l'></div>")
 
         // Only draws lines for rephrases
-        if(original[i][0].length > 0 && original[i][1] != 0) {
-            let mapping = original[i][0][0];
+        if (original[i][0].length > 0 && original[i][1] !== 0) {
+            const mapping = original[i][0][0]
 
             // Highlight on hover logic
-            $('#' + i + 'b, #' + mapping + 'e, #' + i + 'l').hover(function() {
-                $('#' + i + 'b').addClass('bolded');
-                $('#' + mapping + 'e').addClass('bolded');
-                $('#' + i + 'l').addClass('bolded-line');
-            }, function() {
-                if (phrase_idx != i) {
-                    $('#' + i + 'b').removeClass('bolded');
-                    $('#' + mapping + 'e').removeClass('bolded');
-                    $('#' + i + 'l').removeClass('bolded-line');
+            $('#' + i + 'b, #' + mapping + 'e, #' + i + 'l').hover(function () {
+                $('#' + i + 'b').addClass('bolded')
+                $('#' + mapping + 'e').addClass('bolded')
+                $('#' + i + 'l').addClass('bolded-line')
+            }, function () {
+                if (phraseIdx !== i) {
+                    $('#' + i + 'b').removeClass('bolded')
+                    $('#' + mapping + 'e').removeClass('bolded')
+                    $('#' + i + 'l').removeClass('bolded-line')
                 }
-            });
+            })
 
             // Switch to this rephrase on click
             $('#' + i + 'b, #' + mapping + 'e, #' + i + 'l').click(function () {
-                highlightNextPhrase(index=i);
-            });
+                highlightNextPhrase(i)
+            })
 
             // Draw the line between two rephrases
             adjustLine(
-                document.getElementById(i + 'b'), 
+                document.getElementById(i + 'b'),
                 document.getElementById(original[i][0][0] + 'e'),
                 document.getElementById(i + 'l')
-            );
-        } else if (original[i][1] != 0) {
+            )
+        } else if (original[i][1] !== 0) {
             // Add ability to hover over deletions & additions
-            $('#' + i + 'b').hover(function() {
-                $('#' + i + 'b').addClass('bolded');
-            }, function() {
-                if (phrase_idx != i) {
-                    $('#' + i + 'b').removeClass('bolded');
+            $('#' + i + 'b').hover(function () {
+                $('#' + i + 'b').addClass('bolded')
+            }, function () {
+                if (phraseIdx !== i) {
+                    $('#' + i + 'b').removeClass('bolded')
                 }
-            });
+            })
 
             // Add ability to click deletions / additions
             $('#' + i + 'b').click(function () {
-                highlightNextPhrase(index=i);
-            });
+                highlightNextPhrase(i)
+            })
         }
     }
 }
 
-function displayPhrase(i) {
-    let phrase_mapping = original[i][0], phrase_type = original[i][1], phrase_content = original[i][2];
+function displayPhrase (i) {
+    const phraseMapping = original[i][0]; const phraseType = original[i][1]; const phraseContent = original[i][2]
 
     // Remove permanent bolding everywhere
-    $('.bolded-perm').removeClass('bolded-perm');
-    $('.bolded-line-perm').removeClass('bolded-line-perm');
+    $('.bolded-perm').removeClass('bolded-perm')
+    $('.bolded-line-perm').removeClass('bolded-line-perm')
 
-    $(".question").removeClass("question-hide");
-    $('#left-a').html('<span class=' + getColor(phrase_type) + '>' + phrase_content + '</span>');
-    if (phrase_mapping.length > 0) {
+    $('.question').removeClass('question-hide')
+    $('#left-a').html('<span class=' + getColor(phraseType) + '>' + phraseContent + '</span>')
+    if (phraseMapping.length > 0) {
         // On a rephrase, display both phrases and a line connecting them
-        $('#right-a').html('<span class=' + getColor(simplification[phrase_mapping[0]][1]) + '>' + simplification[phrase_mapping[0]][2] + '</span>');
-        $('#line-a').removeClass('radio-hide');
+        $('#right-a').html('<span class=' + getColor(simplification[phraseMapping[0]][1]) + '>' + simplification[phraseMapping[0]][2] + '</span>')
+        $('#line-a').removeClass('radio-hide')
         adjustLine(
-            document.getElementById('right-a'), 
+            document.getElementById('right-a'),
             document.getElementById('left-a'),
             document.getElementById('line-a'),
-            horizontal=true
-        );
+            true
+        )
 
         // Add permanent bolding for the line connecting
-        $('#' + i + 'b').addClass('bolded-perm');
-        $('#' + phrase_mapping[0] + 'e').addClass('bolded-perm');
-        $('#' + i + 'l').addClass('bolded-line-perm');
+        $('#' + i + 'b').addClass('bolded-perm')
+        $('#' + phraseMapping[0] + 'e').addClass('bolded-perm')
+        $('#' + i + 'l').addClass('bolded-line-perm')
 
         // If the edit needs questions hidden, hide them
-        if (phrase_type == 3) {
+        if (phraseType === 3) {
             $('#q5, #q6, #q7, #q8').addClass('question-hide')
-        } else if (phrase_type == 4) {
+        } else if (phraseType === 4) {
             $('#q7, #q8').addClass('question-hide')
-        } else if (phrase_type == 0) {
+        } else if (phraseType === 0) {
             $('.question').addClass('question-hide')
         }
     } else {
         // On an addition / deletion, only display that one phrase
         $('#q5, #q6').addClass('question-hide')
-        $('#' + i + 'b').addClass('bolded');
-        $('#right-a').html('');
-        $('#line-a').addClass('radio-hide');
+        $('#' + i + 'b').addClass('bolded')
+        $('#right-a').html('')
+        $('#line-a').addClass('radio-hide')
     }
 
     // Hides highlight for other annotations
-    let enableHighlightToggle = false;
-    if ($("#highlight-toggle").is(':checked') || !enableHighlightToggle){
-        $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') });
-        $('#' + i + 'b').removeClass('hide-highlight');
-        $('#' + phrase_mapping[0] + 'e').removeClass('hide-highlight');
+    const enableHighlightToggle = false
+    if ($('#highlight-toggle').is(':checked') || !enableHighlightToggle) {
+        $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') })
+        $('#' + i + 'b').removeClass('hide-highlight')
+        $('#' + phraseMapping[0] + 'e').removeClass('hide-highlight')
     }
 
     // Controls toggling
-    $('.btn-outline-success, .btn-outline-danger, .btn-outline-warning').removeClass('active');
-    $('.btn-outline-success, .btn-outline-danger, .btn-outline-warning').click(function() {
+    $('.btn-outline-success, .btn-outline-danger, .btn-outline-warning').removeClass('active')
+    $('.btn-outline-success, .btn-outline-danger, .btn-outline-warning').click(function () {
         if ($($(this).siblings()[0]).hasClass('active')) {
-            $($($(this).siblings()[0])).removeClass('active');
+            $($($(this).siblings()[0])).removeClass('active')
         }
-        $(this).addClass('active');
+        $(this).addClass('active')
 
         // Remove invalid warning on the group of buttons
-        $($(this).parents()[0]).removeClass('btn-group-invalid');
-    });
+        $($(this).parents()[0]).removeClass('btn-group-invalid')
+    })
 
     // If there's no change, skip annotation
-    if (phrase_type == 0) {
-        moveToNextAnnotation();
+    if (phraseType === 0) {
+        moveToNextAnnotation()
     }
 }
 
-function moveToNextAnnotation() {
+function moveToNextAnnotation () {
     // Store answers to current phrase
-    sentence_answers[phrase_idx] = getPhraseAnswers();
+    sentenceAnswers[phraseIdx] = getPhraseAnswers()
 
     // Either we move to the next phrase, the next sentence, or we download data
-    if (phrase_idx < original.length - 1){
-        highlightNextPhrase();
+    if (phraseIdx < original.length - 1) {
+        highlightNextPhrase()
 
         // On the phrase in the last sentence, change the "next" button text to submit
-        if (sent_id == data.length - 1 && phrase_idx == original.length - 1) {
-            $('#submit')[0].innerText = 'SUBMIT ALL';
+        if (sentId === data.length - 1 && phraseIdx === original.length - 1) {
+            $('#submit')[0].innerText = 'SUBMIT ALL'
         }
-    } else if (sent_id < data.length - 1) {
+    } else if (sentId < data.length - 1) {
         // Store answers to sentence before moving on to next sentence
-        all_answers[sent_id] = sentence_answers;
+        allAnswers[sentId] = sentenceAnswers
 
         // Reset interface
-        sent_id++;
-        initializeInterface();
-        displayPhrase(phrase_idx);
+        sentId++
+        initializeInterface()
+        displayPhrase(phraseIdx)
     } else {
         // Done with annotations, download data
-        downloadData();
+        downloadData()
     }
 }
 
 // Store current answers
-function getPhraseAnswers() {
-    let questions = $($('.question-container')[0]).children();
-    let scores = []
+function getPhraseAnswers () {
+    const questions = $($('.question-container')[0]).children()
+    const scores = []
     for (let i = 0; i < questions.length; i++) {
         let a = null
         if ($($($(questions[i]).children()[0]).children()[0]).hasClass('active')) {
-            // Get YES button value 
+            // Get YES button value
             a = 1
         } else if ($($($(questions[i]).children()[0]).children()[1]).hasClass('active')) {
             // Get NO button value
             a = 0
         }
-        scores.push(a);
+        scores.push(a)
     }
 
-    return [scores, original[phrase_idx], simplification[phrase_idx]];
+    return [scores, original[phraseIdx], simplification[phraseIdx]]
 }
 
-function highlightNextPhrase(index=-1) {
-    $('#' + phrase_idx + 'b').removeClass('bolded');
-    $('#' + original[phrase_idx][0][0] + 'e').removeClass('bolded');
-    $('#' + phrase_idx + 'l').removeClass('bolded-line');
+function highlightNextPhrase (index = -1) {
+    $('#' + phraseIdx + 'b').removeClass('bolded')
+    $('#' + original[phraseIdx][0][0] + 'e').removeClass('bolded')
+    $('#' + phraseIdx + 'l').removeClass('bolded-line')
 
-    if (index == -1) {
-        phrase_idx++;
+    if (index === -1) {
+        phraseIdx++
     } else {
-        phrase_idx = index;
+        phraseIdx = index
     }
-    
-    displayPhrase(phrase_idx);
+
+    displayPhrase(phraseIdx)
 }
 
-function getJSON() {
-    var resp = [];
+function getJSON () {
+    const resp = []
     $.ajax({
         url: 'data/input.json',
         type: 'GET',
         dataType: 'json',
         async: false,
-        success : function(data) {
-            resp.push(data);
+        success: function (data) {
+            resp.push(data)
         }
     })
-    return resp[0];
+    return resp[0]
 }
 
 // Downloads output as .json file
-function downloadData() {
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(all_answers));
-    var downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", "output.json");
-    document.body.appendChild(downloadAnchorNode);
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
+function downloadData () {
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(allAnswers))
+    const downloadAnchorNode = document.createElement('a')
+    downloadAnchorNode.setAttribute('href', dataStr)
+    downloadAnchorNode.setAttribute('download', 'output.json')
+    document.body.appendChild(downloadAnchorNode)
+    downloadAnchorNode.click()
+    downloadAnchorNode.remove()
 }
 
-$('#submit').click(function() {
+$('#submit').click(function () {
     // Check to see if every questioned is answered
-    let valid = true;
+    let valid = true
 
     if (checkInvalid) {
-        $('.btn-group').each(function() {
+        $('.btn-group').each(function () {
             // It's invalid if: (1) the question isn't hidden, (2) "YES" has not been selected, and (3) "NO" has not been selected
             if (!$($(this).parent()[0]).hasClass('question-hide') && !($(this.children[0]).hasClass('active') || $(this.children[1]).hasClass('active'))) {
-                valid = false;
-                $(this).addClass('btn-group-invalid');
+                valid = false
+                $(this).addClass('btn-group-invalid')
             }
-        });
+        })
     }
 
     if (valid) {
-        moveToNextAnnotation();
+        moveToNextAnnotation()
     }
-});
+})
 
-$("#highlight-toggle").click(function() {
-    if ($("#highlight-toggle").is(':checked')){
-        $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') });
-        $('#' + phrase_idx + 'b').removeClass('hide-highlight');
-        $('#' + original[phrase_idx][0][0] + 'e').removeClass('hide-highlight');
+$('#highlight-toggle').click(function () {
+    if ($('#highlight-toggle').is(':checked')) {
+        $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') })
+        $('#' + phraseIdx + 'b').removeClass('hide-highlight')
+        $('#' + original[phraseIdx][0][0] + 'e').removeClass('hide-highlight')
     } else {
-        $('#in-container > span, #out-container > span').each(function () { $(this).removeClass('hide-highlight') });
+        $('#in-container > span, #out-container > span').each(function () { $(this).removeClass('hide-highlight') })
     }
-});
+})
 
 // Readjust lines on window resize
-$(window).resize(function() {
-    drawInterface();
-    displayPhrase(phrase_idx);
-});
+$(window).resize(function () {
+    drawInterface()
+    displayPhrase(phraseIdx)
+})
 
 // Generate Y/N box for each question
-var questions = document.getElementsByClassName('question');
+const questions = document.getElementsByClassName('question')
 for (let i = 0; i < questions.length; i++) {
-    let qhtml = "<div class='btn-group btn-group-toggle' data-toggle='buttons'><label class='btn btn-outline-success'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked>YES</label><label class='btn btn-outline-danger'><input type='radio' name='options' id='option2' class='radio-hide' autocomplete='off'>NO</label></div>"
-    
+    const qhtml = "<div class='btn-group btn-group-toggle' data-toggle='buttons'><label class='btn btn-outline-success'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked>YES</label><label class='btn btn-outline-danger'><input type='radio' name='options' id='option2' class='radio-hide' autocomplete='off'>NO</label></div>"
+
     // Contains NA option \/
     // var qhtml = "<div class='btn-group btn-group-toggle' data-toggle='buttons'><label class='btn btn-outline-success'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked>YES</label><label class='btn btn-outline-warning'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked=''>NA</label><label class='btn btn-outline-danger'><input type='radio' name='options' id='option2' class='radio-hide' autocomplete='off'>NO</label></div>"
-    
-    questions[i].innerHTML = qhtml + questions[i].innerHTML;
+
+    questions[i].innerHTML = qhtml + questions[i].innerHTML
 }
 
-
 // Initialize the annotation interface
-var sent_id = 0;
-var data = getJSON();
-var all_answers = {};             // Stores outputs over all sentences
-var out, original, simplification, phrase_idx, sentence_answers;    // Stores answers, reference sent, generated sent, current phrase index and current sentence's annotations
+var sentId = 0
+var data = getJSON()
+var allAnswers = {} // Stores outputs over all sentences
+let out, original, simplification, phraseIdx, sentenceAnswers // Stores answers, reference sent, generated sent, current phrase index and current sentence's annotations
 
-var checkInvalid = false;
+var checkInvalid = false
 
-initializeInterface();
-displayPhrase(phrase_idx);
+initializeInterface()
+displayPhrase(phraseIdx)
