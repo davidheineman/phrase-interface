@@ -33,8 +33,8 @@ function getColor(id) {
 function initializeInterface() {
     // Reset variables
     out = getSentence(sent_id, data);
-    r = out[0];
-    o = out[1];
+    original = out[0];
+    simplification = out[1];
     phrase_idx = 0;     // phrase_idx = How many annotations have been submitted
     sentence_answers = {};
 
@@ -114,70 +114,68 @@ function drawInterface() {
     $('#line-container').html("");
 
     // Generate and highlight sentences
-    for(var i = 0; i < r.length; i++) {
-        $('#in-container').append('<span ' + 'id="' + i + 'b"' + ' >' + r[i][2] + '</span> ');
-        highlightWord(r, i, 'b');
+    for (let i = 0; i < original.length; i++) {
+        $('#in-container').append('<span ' + 'id="' + i + 'b"' + ' >' + original[i][2] + '</span> ');
+        highlightWord(original, i, 'b');
     }
 
-    for(var i = 0; i < o.length; i++) {
-        $('#out-container').append('<span ' + 'id="' + i + 'e"' + ' >' + o[i][2] + '</span> ');
-        highlightWord(o, i, 'e');
+    for (let i = 0; i < simplification.length; i++) {
+        $('#out-container').append('<span ' + 'id="' + i + 'e"' + ' >' + simplification[i][2] + '</span> ');
+        highlightWord(simplification, i, 'e');
     }
 
     // Draws lines and creates :hover between types of edits
-    for(var i = 0; i < r.length; i++) {
+    for (let i = 0; i < original.length; i++) {
         $('#line-container').append("<div class='line' id='" + i + "l'></div>");
 
         // Only draws lines for rephrases
-        if(r[i][0].length > 0 && r[i][1] != 0) {
-            let elem = r[i][0][0];
-            let ielem = i;
+        if(original[i][0].length > 0 && original[i][1] != 0) {
+            let mapping = original[i][0][0];
 
             // Highlight on hover logic
-            $('#' + ielem + 'b, #' + elem + 'e, #' + ielem + 'l').hover(function() {
-                $('#' + ielem + 'b').addClass('bolded');
-                $('#' + elem + 'e').addClass('bolded');
-                $('#' + ielem + 'l').addClass('bolded-line');
+            $('#' + i + 'b, #' + mapping + 'e, #' + i + 'l').hover(function() {
+                $('#' + i + 'b').addClass('bolded');
+                $('#' + mapping + 'e').addClass('bolded');
+                $('#' + i + 'l').addClass('bolded-line');
             }, function() {
-                if (phrase_idx != ielem) {
-                    $('#' + ielem + 'b').removeClass('bolded');
-                    $('#' + elem + 'e').removeClass('bolded');
-                    $('#' + ielem + 'l').removeClass('bolded-line');
+                if (phrase_idx != i) {
+                    $('#' + i + 'b').removeClass('bolded');
+                    $('#' + mapping + 'e').removeClass('bolded');
+                    $('#' + i + 'l').removeClass('bolded-line');
                 }
             });
 
             // Switch to this rephrase on click
-            $('#' + ielem + 'b, #' + elem + 'e, #' + ielem + 'l').click(function () {
-                highlightNextPhrase(amt=ielem);
+            $('#' + i + 'b, #' + mapping + 'e, #' + i + 'l').click(function () {
+                highlightNextPhrase(index=i);
             });
 
             // Draw the line between two rephrases
             adjustLine(
                 document.getElementById(i + 'b'), 
-                document.getElementById(r[i][0][0] + 'e'),
+                document.getElementById(original[i][0][0] + 'e'),
                 document.getElementById(i + 'l')
             );
-        } else if (r[i][1] != 0) {
+        } else if (original[i][1] != 0) {
             // Add ability to hover over deletions & additions
-            let ielem = i;
-            $('#' + ielem + 'b').hover(function() {
-                $('#' + ielem + 'b').addClass('bolded');
+            $('#' + i + 'b').hover(function() {
+                $('#' + i + 'b').addClass('bolded');
             }, function() {
-                if (phrase_idx != ielem) {
-                    $('#' + ielem + 'b').removeClass('bolded');
+                if (phrase_idx != i) {
+                    $('#' + i + 'b').removeClass('bolded');
                 }
             });
 
             // Add ability to click deletions / additions
-            $('#' + ielem + 'b').click(function () {
-                highlightNextPhrase(amt=ielem);
+            $('#' + i + 'b').click(function () {
+                highlightNextPhrase(index=i);
             });
         }
     }
 }
 
 function displayPhrase(i) {
-    let phrase_mapping = r[i][0], phrase_type = r[i][1], phrase_content = r[i][2];
+    let phrase_mapping = original[i][0], phrase_type = original[i][1], phrase_content = original[i][2];
 
     // Remove permanent bolding everywhere
     $('.bolded-perm').removeClass('bolded-perm');
@@ -187,7 +185,7 @@ function displayPhrase(i) {
     $('#left-a').html('<span class=' + getColor(phrase_type) + '>' + phrase_content + '</span>');
     if (phrase_mapping.length > 0) {
         // On a rephrase, display both phrases and a line connecting them
-        $('#right-a').html('<span class=' + getColor(o[phrase_mapping[0]][1]) + '>' + o[phrase_mapping[0]][2] + '</span>');
+        $('#right-a').html('<span class=' + getColor(simplification[phrase_mapping[0]][1]) + '>' + simplification[phrase_mapping[0]][2] + '</span>');
         $('#line-a').removeClass('radio-hide');
         adjustLine(
             document.getElementById('right-a'), 
@@ -248,11 +246,11 @@ function moveToNextAnnotation() {
     sentence_answers[phrase_idx] = getPhraseAnswers();
 
     // Either we move to the next phrase, the next sentence, or we download data
-    if (phrase_idx < r.length - 1){
+    if (phrase_idx < original.length - 1){
         highlightNextPhrase();
 
         // On the phrase in the last sentence, change the "next" button text to submit
-        if (sent_id == data.length - 1 && phrase_idx == r.length - 1) {
+        if (sent_id == data.length - 1 && phrase_idx == original.length - 1) {
             $('#submit')[0].innerText = 'SUBMIT ALL';
         }
     } else if (sent_id < data.length - 1) {
@@ -285,18 +283,18 @@ function getPhraseAnswers() {
         scores.push(a);
     }
 
-    return [scores, r[phrase_idx], o[phrase_idx]];
+    return [scores, original[phrase_idx], simplification[phrase_idx]];
 }
 
-function highlightNextPhrase(amt=-1) {
+function highlightNextPhrase(index=-1) {
     $('#' + phrase_idx + 'b').removeClass('bolded');
-    $('#' + r[phrase_idx][0][0] + 'e').removeClass('bolded');
+    $('#' + original[phrase_idx][0][0] + 'e').removeClass('bolded');
     $('#' + phrase_idx + 'l').removeClass('bolded-line');
 
-    if (amt == -1) {
+    if (index == -1) {
         phrase_idx++;
     } else {
-        phrase_idx = amt;
+        phrase_idx = index;
     }
     
     displayPhrase(phrase_idx);
@@ -350,7 +348,7 @@ $("#highlight-toggle").click(function() {
     if ($("#highlight-toggle").is(':checked')){
         $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') });
         $('#' + phrase_idx + 'b').removeClass('hide-highlight');
-        $('#' + r[phrase_idx][0][0] + 'e').removeClass('hide-highlight');
+        $('#' + original[phrase_idx][0][0] + 'e').removeClass('hide-highlight');
     } else {
         $('#in-container > span, #out-container > span').each(function () { $(this).removeClass('hide-highlight') });
     }
@@ -364,8 +362,8 @@ $(window).resize(function() {
 
 // Generate Y/N box for each question
 var questions = document.getElementsByClassName('question');
-for (var i = 0; i < questions.length; i++) {
-    var qhtml = "<div class='btn-group btn-group-toggle' data-toggle='buttons'><label class='btn btn-outline-success'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked>YES</label><label class='btn btn-outline-danger'><input type='radio' name='options' id='option2' class='radio-hide' autocomplete='off'>NO</label></div>"
+for (let i = 0; i < questions.length; i++) {
+    let qhtml = "<div class='btn-group btn-group-toggle' data-toggle='buttons'><label class='btn btn-outline-success'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked>YES</label><label class='btn btn-outline-danger'><input type='radio' name='options' id='option2' class='radio-hide' autocomplete='off'>NO</label></div>"
     
     // Contains NA option \/
     // var qhtml = "<div class='btn-group btn-group-toggle' data-toggle='buttons'><label class='btn btn-outline-success'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked>YES</label><label class='btn btn-outline-warning'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked=''>NA</label><label class='btn btn-outline-danger'><input type='radio' name='options' id='option2' class='radio-hide' autocomplete='off'>NO</label></div>"
@@ -378,7 +376,7 @@ for (var i = 0; i < questions.length; i++) {
 var sent_id = 0;
 var data = getJSON();
 var all_answers = {};             // Stores outputs over all sentences
-var out, r, o, phrase_idx, sentence_answers;    // Stores answers, reference sent, generated sent, current phrase index and current sentence's annotations
+var out, original, simplification, phrase_idx, sentence_answers;    // Stores answers, reference sent, generated sent, current phrase index and current sentence's annotations
 
 var checkInvalid = false;
 

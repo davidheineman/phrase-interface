@@ -1,0 +1,14 @@
+[
+    {
+        "ID": 0,
+        "Original": "Complex Sea slugs dubbed sacoglossans are some of the most remarkable biological burglars on the planet.",
+        "Simplification": "Scientists say these are some of the most interesting creatures on the planet",
+        "Alignment": [
+            [null, [0, 14]],
+            [[0, 16], [15, 20]],
+            [[18, 37], null],
+            [[59, 69], [42, 53]],
+            [[70, 89], [54, 63]] 
+        ]
+    }
+]
