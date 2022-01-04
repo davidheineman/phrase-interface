@@ -1,12 +1,7 @@
-const add = Symbol('add'), del = Symbol('del'), par = Symbol('rp')
+const add = Symbol('add'); const del = Symbol('del'); const par = Symbol('rp')
 
 function getAlignmentType (edit) {
-    if (edit[0] === null)
-        return add
-    else if (edit[1] === null)
-        return del
-    else
-        return par
+    if (edit[0] === null) { return add } else if (edit[1] === null) { return del } else { return par }
 }
 
 // Called each time a new sentence is displayed
@@ -17,6 +12,11 @@ function initializeInterface () {
     alignment = data[sentId].Alignment
     phraseIdx = 0 // phrase_idx = How many annotations have been submitted
     sentenceAnswers = {}
+    sentenceAnswers.ID = data[sentId].ID
+    sentenceAnswers.Original = original
+    sentenceAnswers.Simplifications = simplified
+    sentenceAnswers.Alignment = alignment
+    sentenceAnswers.Annotations = []
 
     // Draw interface
     drawInterface()
@@ -88,7 +88,7 @@ function adjustLine (from, to, line, horizontal = false) {
     line.style.height = H + 'px'
 }
 
-function parseAlignment(sent, type) {
+function parseAlignment (sent, type) {
     // INPUT:
     // "Original": "Complex Sea slugs dubbed sacoglossans are some of the most remarkable biological burglars on the planet.",
     // "Simplification": "Scientists say these are some of the most interesting creatures on the planet",
@@ -97,9 +97,9 @@ function parseAlignment(sent, type) {
     //     [[0, 16], [15, 20]],
     //     [[18, 37], null],
     //     [[59, 69], [42, 53]],
-    //     [[70, 89], [54, 63]] 
+    //     [[70, 89], [54, 63]]
     // ]
-    
+
     // OUTPUT
     // [
     //     ["Complex Sea slugs", 1],
@@ -114,7 +114,7 @@ function parseAlignment(sent, type) {
     // [
     //     ["Scientists say", 0],
     //     [" ", null],
-    //     ["these", 1], 
+    //     ["these", 1],
     //     [" are some of the most ", null],
     //     ["interesting", 3],
     //     [" ", null]
@@ -123,53 +123,46 @@ function parseAlignment(sent, type) {
     // ]
 
     // Duplicate the alignment arrray and sort by the first index of each edit.
-    let tmp = alignment.map(function(arr) {
-        return arr.slice();
-    });
-    for (let i = 0; i < tmp.length; i++) 
-        tmp[i].push(i)
+    const tmp = alignment.map(function (arr) {
+        return arr.slice()
+    })
+    for (let i = 0; i < tmp.length; i++) { tmp[i].push(i) }
     if (type !== 'original') {
         tmp.sort((a, b) => {
-            if (a[1] === null)
-                return Infinity
-            else if (b[1] === null)
-                return Infinity
-            else
-                return a[1][0] - b[1][0]
+            if (a[1] === null) { return Infinity } else if (b[1] === null) { return Infinity } else { return a[1][0] - b[1][0] }
         })
     }
-    
+
     const out = []
-    let last_ending_idx = 0, edit
-    
+    let lastEndingIdx = 0; let edit
+
     for (let i = 0; i < tmp.length; i++) {
         (type === 'original') ? edit = tmp[i][0] : edit = tmp[i][1]
-        index_of_edit = tmp[i][2]
+        const indexOfEdit = tmp[i][2]
 
         // Only add edits deletions and paraphrases
         if (edit === null) continue
 
         // Get the start and end indices of the edit
-        const start_idx = edit[0], end_idx = edit[1]
+        const startIdx = edit[0]
+        const endIdx = edit[1]
 
         // Add the intermediate text if it the edits aren't adjacent
-        if (start_idx !== 0 && start_idx !== last_ending_idx)
-            out.push([null, sent.substring(last_ending_idx, start_idx), last_ending_idx])
+        if (startIdx !== 0 && startIdx !== lastEndingIdx) { out.push([null, sent.substring(lastEndingIdx, startIdx), lastEndingIdx]) }
 
         // Add the edit
-        out.push([index_of_edit, sent.substring(start_idx, end_idx), start_idx])
+        out.push([indexOfEdit, sent.substring(startIdx, endIdx), startIdx])
 
         // Add the end of the sentence if applicable
-        if (i === alignment.length - 1 && end_idx !== sent.length)
-            out.push([null, sent.substring(end_idx), end_idx])
+        if (i === alignment.length - 1 && endIdx !== sent.length) { out.push([null, sent.substring(endIdx), endIdx]) }
 
-        last_ending_idx = end_idx
+        lastEndingIdx = endIdx
     }
 
     // Sort the arrays in out by their last element and delete the last element of each array
     out.sort((a, b) => a[2] - b[2])
     for (let i = 0; i < out.length; i++) {
-        out[i] = out[i].slice(0,2)
+        out[i] = out[i].slice(0, 2)
     }
 
     return out
@@ -184,15 +177,15 @@ function drawInterface () {
     // TODO: Need to make sure the alignments are in order and do NOT overlap
 
     // Parse sentences into a usable format
-    let original_tokens = parseAlignment(original, 'original')
-    let simplified_tokens = parseAlignment(simplified, 'simplified')
+    const originalTokens = parseAlignment(original, 'original')
+    const simplifiedTokens = parseAlignment(simplified, 'simplified')
 
     // Write sentences onto the DOM
-    let drawToken = function(token, containerId) {
+    const drawToken = function (token, containerId) {
         if (token[0] === null) {
             $(containerId).append(token[1])
         } else {
-            $(containerId).append($("<span>", {
+            $(containerId).append($('<span>', {
                 // id: i + 'b',
                 class: 'token ' + getAlignmentType(alignment[token[0]]).description,
                 edit_id: token[0],
@@ -200,39 +193,38 @@ function drawInterface () {
             }))
         }
     }
-    original_tokens.forEach(function(token) { drawToken(token, "#in-container") })
-    simplified_tokens.forEach(function(token) { drawToken(token, "#out-container") })
+    originalTokens.forEach(function (token) { drawToken(token, '#in-container') })
+    simplifiedTokens.forEach(function (token) { drawToken(token, '#out-container') })
 
     // Draw lines and creates :hover between types of edits
     for (let i = 0; i < alignment.length; i++) {
-        let edit = alignment[i], alignment_type = getAlignmentType(edit)
-        
+        const edit = alignment[i]
+        const alignmentType = getAlignmentType(edit)
+
         // Add line DOM elements
-        $('#line-container').append($("<div>", {
+        $('#line-container').append($('<div>', {
             edit_id: i,
             class: 'line'
         }))
 
         // Add ability to bold edit on hover
-        $("[edit_id='" + i + "']").hover(function() {
+        $("[edit_id='" + i + "']").hover(function () {
             $(".token[edit_id='" + i + "']").addClass('bolded')
-            if (alignment_type === par)
-                $(".line[edit_id='" + i + "']").addClass('bolded-line')
-        }, function() {
+            if (alignmentType === par) { $(".line[edit_id='" + i + "']").addClass('bolded-line') }
+        }, function () {
             if (phraseIdx !== i) {
                 $(".token[edit_id='" + i + "']").removeClass('bolded')
-                if (alignment_type === par)
-                    $(".line[edit_id='" + i + "']").removeClass('bolded-line')
+                if (alignmentType === par) { $(".line[edit_id='" + i + "']").removeClass('bolded-line') }
             }
         })
 
         // Add ability to switch to the edit on click
-        $("[edit_id='" + i + "']").click(function() {
+        $("[edit_id='" + i + "']").click(function () {
             highlightNextPhrase(i)
         })
 
         // Draw line between two paraphrases
-        if (alignment_type === par) {
+        if (alignmentType === par) {
             adjustLine(
                 $(".token[edit_id='" + i + "']")[0],
                 $(".token[edit_id='" + i + "']")[1],
@@ -245,18 +237,16 @@ function drawInterface () {
     $('#highlight-toggle').click(function () {
         if ($('#highlight-toggle').is(':checked')) {
             $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') })
-            $(".token[edit_id='" + i + "']").removeClass('hide-highlight')
+            $('.token').removeClass('hide-highlight')
         } else {
             $('#in-container > span, #out-container > span').each(function () { $(this).removeClass('hide-highlight') })
         }
     })
 }
 
-
-
-function displayPhrase (i) {    
-    let edit = alignment[i]
-    let alignment_type = getAlignmentType(edit)
+function displayPhrase (i) {
+    const edit = alignment[i]
+    const alignmentType = getAlignmentType(edit)
 
     // Remove bolding everywhere
     $('.bolded-perm').removeClass('bolded-perm')
@@ -265,15 +255,15 @@ function displayPhrase (i) {
     $('.bolded-line').removeClass('bolded-line')
 
     $('.question').removeClass('question-hide')
-    $('#left-a').html($('<span>', {
-        class: alignment_type.description,
+    $('#left-a, #right-a').html($('<span>', {
+        class: alignmentType.description,
         text: $(".token[edit_id='" + i + "']")[0].textContent
     }))
 
-    if (alignment_type === par) {
+    if (alignmentType === par) {
         // On a rephrase, display both phrases and a line connecting them
         $('#right-a').html($('<span>', {
-            class: alignment_type.description,
+            class: alignmentType.description,
             text: $(".token[edit_id='" + i + "']")[1].textContent
         }))
         $('#line-a').removeClass('radio-hide')
@@ -289,17 +279,18 @@ function displayPhrase (i) {
         $(".line[edit_id='" + i + "']").addClass('bolded-line-perm')
     } else {
         // On an addition / deletion, only display that one phrase
-        $('#right-a').html('')
         $(".token[edit_id='" + i + "']").addClass('bolded-perm')
-        $('#q5, #q6').addClass('question-hide')
         $('#line-a').addClass('radio-hide')
     }
 
     // If the edit needs questions hidden, hide them
-    if (alignment_type === par) 
-        $('#q5, #q6, #q7, #q8').addClass('question-hide')
-    else if (alignment_type === add)
+    if (alignmentType === del) {
+        $('#right-a').html('')
+        $('#q5, #q6').addClass('question-hide')
+    } else if (alignmentType === add) {
+        $('#left-a').html('')
         $('#q7, #q8').addClass('question-hide')
+    }
 
     // Hides highlight for other annotations
     if ($('#highlight-toggle').is(':checked') || !enableHighlightToggle) {
@@ -327,27 +318,27 @@ function displayPhrase (i) {
 
 function moveToNextAnnotation () {
     // Store answers to current phrase
-    sentenceAnswers[phraseIdx] = getPhraseAnswers()
+    sentenceAnswers.Annotations.push(getPhraseAnswers())
 
     // Either we move to the next phrase, the next sentence, or we download data
     if (phraseIdx < alignment.length - 1) {
         highlightNextPhrase()
 
         // On the phrase in the last sentence, change the "next" button text to submit
-        if (sentId === data.length - 1 && phraseIdx === original.length - 1) {
-            $('#submit')[0].innerText = 'SUBMIT ALL'
-        }
-    } else if (sentId < data.length - 1) {
-        // Store answers to sentence before moving on to next sentence
-        allAnswers[sentId] = sentenceAnswers
-
-        // Reset interface
-        sentId++
-        initializeInterface()
-        displayPhrase(phraseIdx)
+        if (sentId === data.length - 1 && phraseIdx === original.length - 1) { $('#submit')[0].innerText = 'SUBMIT ALL' }
     } else {
-        // Done with annotations, download data
-        downloadData()
+        // Store answers to sentence before moving on to next sentence
+        allAnswers.push(sentenceAnswers)
+
+        if (sentId < data.length - 1) {
+            // Reset interface
+            sentId++
+            initializeInterface()
+            displayPhrase(phraseIdx)
+        } else {
+            // Done with annotations, download data
+            downloadData(allAnswers)
+        }
     }
 }
 
@@ -356,36 +347,38 @@ function getPhraseAnswers () {
     const questions = $($('.question-container')[0]).children()
     const scores = []
     for (let i = 0; i < questions.length; i++) {
-        let a = null
-        if ($($($(questions[i]).children()[0]).children()[0]).hasClass('active')) {
-            // Get YES button value
-            a = 1
-        } else if ($($($(questions[i]).children()[0]).children()[1]).hasClass('active')) {
-            // Get NO button value
-            a = 0
-        }
-        scores.push(a)
+        let answer = null
+        const button = $($($(questions[i]).children()[0]).children())
+        if ($(button[0]).hasClass('active')) { answer = 1 } else if ($(button[1]).hasClass('active')) { answer = 0 }
+        scores.push(answer)
     }
 
-    return [scores, original[phraseIdx], simplified[phraseIdx]]
+    const leftText = $('#left-a').text() !== '' ? $('#left-a').text() : null
+    const rightText = $('#right-a').text() !== '' ? $('#right-a').text() : null
+
+    return {
+        Original: leftText,
+        Simplified: rightText,
+        Alignment: alignment[phraseIdx],
+        Scores: scores
+    }
 }
 
 function highlightNextPhrase (index = -1) {
     $(".token[edit_id='" + phraseIdx + "']").removeClass('bolded')
     $(".line[edit_id='" + phraseIdx + "']").removeClass('bolded-line')
 
-    if (index === -1)
-        phraseIdx++
-    else
-        phraseIdx = index
+    if (index === -1) { phraseIdx++ } else { phraseIdx = index }
 
     displayPhrase(phraseIdx)
 }
 
-function getJSON () {
+function getJSON (data_file) {
     const resp = []
+    if (is_mturk) 
+        data_file = "https://www.davidheineman.github.io/phrase-interface/" + data_file
     $.ajax({
-        url: 'data/simplified_format.json',
+        url: data_file,
         type: 'GET',
         dataType: 'json',
         async: false,
@@ -397,9 +390,13 @@ function getJSON () {
 }
 
 // Download JSON data
-function downloadData () {
-    var raw_data = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allAnswers));
-    $('<a></a>').attr('href', raw_data).attr('download', 'output.json')[0].click();
+function downloadData (data) {
+    if (is_mturk) {
+        $('#mturk-hit').val(JSON.stringify(data));
+    } else {
+        const rawData = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data))
+        $('<a></a>').attr('href', rawData).attr('download', 'output.json')[0].click()
+    }
 }
 
 $('#submit').click(function () {
@@ -438,13 +435,15 @@ for (let i = 0; i < questions.length; i++) {
     questions[i].innerHTML = qhtml + questions[i].innerHTML
 }
 
+// Gather settings for interface
+const is_mturk = false
+const data = getJSON('data/input.json')
+const allAnswers = [] // Stores outputs over all sentences
+const checkInvalid = false
+const enableHighlightToggle = true
+
 // Initialize the annotation interface
-var sentId = 0
-var data = getJSON()
-var allAnswers = {} // Stores outputs over all sentences
-var checkInvalid = false
-
-let original, simplified, alignment, phraseIdx, sentenceAnswers 
-
+let original, simplified, alignment, phraseIdx, sentenceAnswers
+let sentId = 0
 initializeInterface()
 displayPhrase(phraseIdx)
