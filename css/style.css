@@ -128,6 +128,10 @@ body, .container {
     margin-bottom: 200px;
 }
 
+body {
+    overflow: hidden; /* Hide scrollbars */
+}
+
 .a-container h3 {
     font-size: 20px;
 }
@@ -157,6 +161,8 @@ body, .container {
     width: 65px;
     margin-bottom: 40px;
 }
+
+
 
 /* TEMPORARY PLEASE DELETE */
 .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
