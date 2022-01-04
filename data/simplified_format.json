@@ -5,10 +5,19 @@
         "Simplification": "Scientists say these are some of the most interesting creatures on the planet",
         "Alignment": [
             [null, [0, 14]],
-            [[0, 16], [15, 20]],
+            [[0, 17], [15, 20]],
             [[18, 37], null],
             [[59, 69], [42, 53]],
             [[70, 89], [54, 63]] 
+        ]
+    }, {
+        "ID": 1,
+        "Original": "They float in and out of formations that combine the underwater world with the stage.",
+        "Simplification": "They float in and out of places that combine stage with the underwater.",
+        "Alignment": [
+            [[25, 35],[25, 31]],
+            [[53, 69],[60, 71]],
+            [[75, 85],[45, 50]]
         ]
     }
 ]

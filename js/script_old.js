@@ -1,19 +1,35 @@
-const add = Symbol('add'), del = Symbol('del'), par = Symbol('rp')
+// TODO: ALLOW FOR ANNOTATING ADDITIONS
+// Edit displayPhrase to allow for this
+// After all the phrases from input -> output have been annotated, annotate additions
 
-function getAlignmentType (edit) {
-    if (edit[0] === null)
-        return add
-    else if (edit[1] === null)
-        return del
-    else
-        return par
+// Key:
+// 0 = No edit
+// 1 = Rephrase
+// 2 = Deletion
+// 3 = Re-order of Wording
+// 4 = Addition
+
+function highlightWord (sent, i, holderId) {
+    $('#' + i + holderId).addClass(getColor(sent[i][1]))
+}
+
+function getColor (id) {
+    if (id === 1) {
+        return 'rp'
+    } else if (id === 2) {
+        return 'del'
+    } else if (id === 3) {
+        return 'reword'
+    } else if (id === 4) {
+        return 'add'
+    }
 }
 
 // Called each time a new sentence is displayed
 function initializeInterface () {
     // Reset variables
     original = data[sentId].Original
-    simplified = data[sentId].Simplification
+    simplified = data[sentId].Simplified
     alignment = data[sentId].Alignment
     phraseIdx = 0 // phrase_idx = How many annotations have been submitted
     sentenceAnswers = {}
@@ -88,223 +104,122 @@ function adjustLine (from, to, line, horizontal = false) {
     line.style.height = H + 'px'
 }
 
-function parseAlignment(sent, type) {
-    // INPUT:
-    // "Original": "Complex Sea slugs dubbed sacoglossans are some of the most remarkable biological burglars on the planet.",
-    // "Simplification": "Scientists say these are some of the most interesting creatures on the planet",
-    // "Alignment": [
-    //     [null, [0, 14]],
-    //     [[0, 16], [15, 20]],
-    //     [[18, 37], null],
-    //     [[59, 69], [42, 53]],
-    //     [[70, 89], [54, 63]] 
-    // ]
-    
-    // OUTPUT
-    // [
-    //     ["Complex Sea slugs", 1],
-    //     [" ", null]
-    //     ["dubbed sacoglossans", 2],
-    //     [" ", null]
-    //     ["remarkable", 3]
-    //     [" ", null],
-    //     ["biological burglars", 4],
-    //     [" on the planet.", null]
-    // ]
-    // [
-    //     ["Scientists say", 0],
-    //     [" ", null],
-    //     ["these", 1], 
-    //     [" are some of the most ", null],
-    //     ["interesting", 3],
-    //     [" ", null]
-    //     ["creatures", 4],
-    //     [" on the planet.", null]
-    // ]
-
-    // Duplicate the alignment arrray and sort by the first index of each edit.
-    let tmp = alignment.map(function(arr) {
-        return arr.slice();
-    });
-    for (let i = 0; i < tmp.length; i++) 
-        tmp[i].push(i)
-    if (type !== 'original') {
-        tmp.sort((a, b) => {
-            if (a[1] === null)
-                return Infinity
-            else if (b[1] === null)
-                return Infinity
-            else
-                return a[1][0] - b[1][0]
-        })
-    }
-    
-    const out = []
-    let last_ending_idx = 0, edit
-    
-    for (let i = 0; i < tmp.length; i++) {
-        (type === 'original') ? edit = tmp[i][0] : edit = tmp[i][1]
-        index_of_edit = tmp[i][2]
-
-        // Only add edits deletions and paraphrases
-        if (edit === null) continue
-
-        // Get the start and end indices of the edit
-        const start_idx = edit[0], end_idx = edit[1]
-
-        // Add the intermediate text if it the edits aren't adjacent
-        if (start_idx !== 0 && start_idx !== last_ending_idx)
-            out.push([null, sent.substring(last_ending_idx, start_idx), last_ending_idx])
-
-        // Add the edit
-        out.push([index_of_edit, sent.substring(start_idx, end_idx), start_idx])
-
-        // Add the end of the sentence if applicable
-        if (i === alignment.length - 1 && end_idx !== sent.length)
-            out.push([null, sent.substring(end_idx), end_idx])
-
-        last_ending_idx = end_idx
-    }
-
-    // Sort the arrays in out by their last element and delete the last element of each array
-    out.sort((a, b) => a[2] - b[2])
-    for (let i = 0; i < out.length; i++) {
-        out[i] = out[i].slice(0,2)
-    }
-
-    return out
-}
-
 function drawInterface () {
     // Reset Containers
     $('#in-container').html('')
     $('#out-container').html('')
     $('#line-container').html('')
 
-    // TODO: Need to make sure the alignments are in order and do NOT overlap
-
-    // Parse sentences into a usable format
-    let original_tokens = parseAlignment(original, 'original')
-    let simplified_tokens = parseAlignment(simplified, 'simplified')
-
-    // Write sentences onto the DOM
-    let drawToken = function(token, containerId) {
-        if (token[0] === null) {
-            $(containerId).append(token[1])
-        } else {
-            $(containerId).append($("<span>", {
-                // id: i + 'b',
-                class: 'token ' + getAlignmentType(alignment[token[0]]).description,
-                edit_id: token[0],
-                text: token[1]
-            }))
-        }
+    // Generate and highlight sentences
+    for (let i = 0; i < original.length; i++) {
+        $('#in-container').append('<span ' + 'id="' + i + 'b"' + ' >' + original[i][2] + '</span> ')
+        highlightWord(original, i, 'b')
     }
-    original_tokens.forEach(function(token) { drawToken(token, "#in-container") })
-    simplified_tokens.forEach(function(token) { drawToken(token, "#out-container") })
 
-    // Draw lines and creates :hover between types of edits
-    for (let i = 0; i < alignment.length; i++) {
-        let edit = alignment[i], alignment_type = getAlignmentType(edit)
-        
-        // Add line DOM elements
-        $('#line-container').append($("<div>", {
-            edit_id: i,
-            class: 'line'
-        }))
+    for (let i = 0; i < simplified.length; i++) {
+        $('#out-container').append('<span ' + 'id="' + i + 'e"' + ' >' + simplified[i][2] + '</span> ')
+        highlightWord(simplified, i, 'e')
+    }
 
-        // Add ability to bold edit on hover
-        $("[edit_id='" + i + "']").hover(function() {
-            $(".token[edit_id='" + i + "']").addClass('bolded')
-            if (alignment_type === par)
-                $(".line[edit_id='" + i + "']").addClass('bolded-line')
-        }, function() {
-            if (phraseIdx !== i) {
-                $(".token[edit_id='" + i + "']").removeClass('bolded')
-                if (alignment_type === par)
-                    $(".line[edit_id='" + i + "']").removeClass('bolded-line')
-            }
-        })
+    // Draws lines and creates :hover between types of edits
+    for (let i = 0; i < original.length; i++) {
+        $('#line-container').append("<div class='line' id='" + i + "l'></div>")
 
-        // Add ability to switch to the edit on click
-        $("[edit_id='" + i + "']").click(function() {
-            highlightNextPhrase(i)
-        })
+        // Only draws lines for rephrases
+        if (original[i][0].length > 0 && original[i][1] !== 0) {
+            const mapping = original[i][0][0]
 
-        // Draw line between two paraphrases
-        if (alignment_type === par) {
+            // Highlight on hover logic
+            $('#' + i + 'b, #' + mapping + 'e, #' + i + 'l').hover(function () {
+                $('#' + i + 'b').addClass('bolded')
+                $('#' + mapping + 'e').addClass('bolded')
+                $('#' + i + 'l').addClass('bolded-line')
+            }, function () {
+                if (phraseIdx !== i) {
+                    $('#' + i + 'b').removeClass('bolded')
+                    $('#' + mapping + 'e').removeClass('bolded')
+                    $('#' + i + 'l').removeClass('bolded-line')
+                }
+            })
+
+            // Switch to this rephrase on click
+            $('#' + i + 'b, #' + mapping + 'e, #' + i + 'l').click(function () {
+                highlightNextPhrase(i)
+            })
+
+            // Draw the line between two rephrases
             adjustLine(
-                $(".token[edit_id='" + i + "']")[0],
-                $(".token[edit_id='" + i + "']")[1],
-                $(".line[edit_id='" + i + "']")[0]
+                document.getElementById(i + 'b'),
+                document.getElementById(original[i][0][0] + 'e'),
+                document.getElementById(i + 'l')
             )
+        } else if (original[i][1] !== 0) {
+            // Add ability to hover over deletions & additions
+            $('#' + i + 'b').hover(function () {
+                $('#' + i + 'b').addClass('bolded')
+            }, function () {
+                if (phraseIdx !== i) {
+                    $('#' + i + 'b').removeClass('bolded')
+                }
+            })
+
+            // Add ability to click deletions / additions
+            $('#' + i + 'b').click(function () {
+                highlightNextPhrase(i)
+            })
         }
     }
-
-    // Add ability to toggle highlighting edits
-    $('#highlight-toggle').click(function () {
-        if ($('#highlight-toggle').is(':checked')) {
-            $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') })
-            $(".token[edit_id='" + i + "']").removeClass('hide-highlight')
-        } else {
-            $('#in-container > span, #out-container > span').each(function () { $(this).removeClass('hide-highlight') })
-        }
-    })
 }
 
+function displayPhrase (i) {
+    const phraseMapping = original[i][0]; 
+    const phraseType = original[i][1]; 
+    const phraseContent = original[i][2]
 
-
-function displayPhrase (i) {    
-    let edit = alignment[i]
-    let alignment_type = getAlignmentType(edit)
-
-    // Remove bolding everywhere
+    // Remove permanent bolding everywhere
     $('.bolded-perm').removeClass('bolded-perm')
     $('.bolded-line-perm').removeClass('bolded-line-perm')
-    $('.bolded').removeClass('bolded')
-    $('.bolded-line').removeClass('bolded-line')
 
     $('.question').removeClass('question-hide')
-    $('#left-a').html($('<span>', {
-        class: alignment_type.description,
-        text: $(".token[edit_id='" + i + "']")[0].textContent
-    }))
-
-    if (alignment_type === par) {
+    $('#left-a').html('<span class=' + getColor(phraseType) + '>' + phraseContent + '</span>')
+    if (phraseMapping.length > 0) {
         // On a rephrase, display both phrases and a line connecting them
-        $('#right-a').html($('<span>', {
-            class: alignment_type.description,
-            text: $(".token[edit_id='" + i + "']")[1].textContent
-        }))
+        $('#right-a').html('<span class=' + getColor(simplified[phraseMapping[0]][1]) + '>' + simplified[phraseMapping[0]][2] + '</span>')
         $('#line-a').removeClass('radio-hide')
         adjustLine(
-            $('#right-a')[0],
-            $('#left-a')[0],
-            $('#line-a')[0],
+            document.getElementById('right-a'),
+            document.getElementById('left-a'),
+            document.getElementById('line-a'),
             true
         )
 
         // Add permanent bolding for the line connecting
-        $(".token[edit_id='" + i + "']").addClass('bolded-perm')
-        $(".line[edit_id='" + i + "']").addClass('bolded-line-perm')
+        $('#' + i + 'b').addClass('bolded-perm')
+        $('#' + phraseMapping[0] + 'e').addClass('bolded-perm')
+        $('#' + i + 'l').addClass('bolded-line-perm')
+
+        // If the edit needs questions hidden, hide them
+        if (phraseType === 3) {
+            $('#q5, #q6, #q7, #q8').addClass('question-hide')
+        } else if (phraseType === 4) {
+            $('#q7, #q8').addClass('question-hide')
+        } else if (phraseType === 0) {
+            $('.question').addClass('question-hide')
+        }
     } else {
         // On an addition / deletion, only display that one phrase
-        $('#right-a').html('')
-        $(".token[edit_id='" + i + "']").addClass('bolded-perm')
         $('#q5, #q6').addClass('question-hide')
+        $('#' + i + 'b').addClass('bolded')
+        $('#right-a').html('')
         $('#line-a').addClass('radio-hide')
     }
 
-    // If the edit needs questions hidden, hide them
-    if (alignment_type === par) 
-        $('#q5, #q6, #q7, #q8').addClass('question-hide')
-    else if (alignment_type === add)
-        $('#q7, #q8').addClass('question-hide')
-
     // Hides highlight for other annotations
+    const enableHighlightToggle = false
     if ($('#highlight-toggle').is(':checked') || !enableHighlightToggle) {
         $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') })
-        $(".token[edit_id='" + i + "']").removeClass('hide-highlight')
+        $('#' + i + 'b').removeClass('hide-highlight')
+        $('#' + phraseMapping[0] + 'e').removeClass('hide-highlight')
     }
 
     // Controls toggling
@@ -320,9 +235,9 @@ function displayPhrase (i) {
     })
 
     // If there's no change, skip annotation
-    // if (phraseType === 0) {
-    //     moveToNextAnnotation()
-    // }
+    if (phraseType === 0) {
+        moveToNextAnnotation()
+    }
 }
 
 function moveToNextAnnotation () {
@@ -330,7 +245,7 @@ function moveToNextAnnotation () {
     sentenceAnswers[phraseIdx] = getPhraseAnswers()
 
     // Either we move to the next phrase, the next sentence, or we download data
-    if (phraseIdx < alignment.length - 1) {
+    if (phraseIdx < original.length - 1) {
         highlightNextPhrase()
 
         // On the phrase in the last sentence, change the "next" button text to submit
@@ -371,13 +286,15 @@ function getPhraseAnswers () {
 }
 
 function highlightNextPhrase (index = -1) {
-    $(".token[edit_id='" + phraseIdx + "']").removeClass('bolded')
-    $(".line[edit_id='" + phraseIdx + "']").removeClass('bolded-line')
+    $('#' + phraseIdx + 'b').removeClass('bolded')
+    $('#' + original[phraseIdx][0][0] + 'e').removeClass('bolded')
+    $('#' + phraseIdx + 'l').removeClass('bolded-line')
 
-    if (index === -1)
+    if (index === -1) {
         phraseIdx++
-    else
+    } else {
         phraseIdx = index
+    }
 
     displayPhrase(phraseIdx)
 }
@@ -385,7 +302,7 @@ function highlightNextPhrase (index = -1) {
 function getJSON () {
     const resp = []
     $.ajax({
-        url: 'data/simplified_format.json',
+        url: 'data/input.json',
         type: 'GET',
         dataType: 'json',
         async: false,
@@ -396,8 +313,9 @@ function getJSON () {
     return resp[0]
 }
 
-// Download JSON data
+// Downloads output as .json file
 function downloadData () {
+    // Download JSON data
     var raw_data = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allAnswers));
     $('<a></a>').attr('href', raw_data).attr('download', 'output.json')[0].click();
 }
@@ -418,6 +336,16 @@ $('#submit').click(function () {
 
     if (valid) {
         moveToNextAnnotation()
+    }
+})
+
+$('#highlight-toggle').click(function () {
+    if ($('#highlight-toggle').is(':checked')) {
+        $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') })
+        $('#' + phraseIdx + 'b').removeClass('hide-highlight')
+        $('#' + original[phraseIdx][0][0] + 'e').removeClass('hide-highlight')
+    } else {
+        $('#in-container > span, #out-container > span').each(function () { $(this).removeClass('hide-highlight') })
     }
 })
 
@@ -444,7 +372,7 @@ var data = getJSON()
 var allAnswers = {} // Stores outputs over all sentences
 var checkInvalid = false
 
-let original, simplified, alignment, phraseIdx, sentenceAnswers 
+let original, alignment, simplified, phraseIdx, sentenceAnswers // Stores answers, reference sent, generated sent, current phrase index and current sentence's annotations
 
 initializeInterface()
 displayPhrase(phraseIdx)
