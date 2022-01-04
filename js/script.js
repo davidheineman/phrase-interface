@@ -10,13 +10,15 @@ function initializeInterface () {
     original = data[sentId].Original
     simplified = data[sentId].Simplification
     alignment = data[sentId].Alignment
-    phraseIdx = 0 // phrase_idx = How many annotations have been submitted
-    sentenceAnswers = {}
-    sentenceAnswers.ID = data[sentId].ID
-    sentenceAnswers.Original = original
-    sentenceAnswers.Simplifications = simplified
-    sentenceAnswers.Alignment = alignment
-    sentenceAnswers.Annotations = []
+    phraseIdx = 0
+
+    sentenceAnswers = {
+        ID: data[sentId].ID,
+        Original: original,
+        Simplified: simplified,
+        Alignment: alignment,
+        Annotations: []
+    }
 
     // Draw interface
     drawInterface()
@@ -186,7 +188,6 @@ function drawInterface () {
             $(containerId).append(token[1])
         } else {
             $(containerId).append($('<span>', {
-                // id: i + 'b',
                 class: 'token ' + getAlignmentType(alignment[token[0]]).description,
                 edit_id: token[0],
                 text: token[1]
@@ -310,6 +311,15 @@ function displayPhrase (i) {
         $($(this).parents()[0]).removeClass('btn-group-invalid')
     })
 
+    // On the phrase in the last sentence, change the "next" button text to submit
+    if (sentId === data.length - 1 && phraseIdx === alignment.length - 1) {
+        if (isMturk) {
+            $('#submit').text('SUBMIT HIT')
+        } else {
+            $('#submit').text('SUBMIT ALL')
+        }
+    }
+
     // If there's no change, skip annotation
     // if (phraseType === 0) {
     //     moveToNextAnnotation()
@@ -323,9 +333,6 @@ function moveToNextAnnotation () {
     // Either we move to the next phrase, the next sentence, or we download data
     if (phraseIdx < alignment.length - 1) {
         highlightNextPhrase()
-
-        // On the phrase in the last sentence, change the "next" button text to submit
-        if (sentId === data.length - 1 && phraseIdx === original.length - 1) { $('#submit')[0].innerText = 'SUBMIT ALL' }
     } else {
         // Store answers to sentence before moving on to next sentence
         allAnswers.push(sentenceAnswers)
@@ -373,12 +380,13 @@ function highlightNextPhrase (index = -1) {
     displayPhrase(phraseIdx)
 }
 
-function getJSON (data_file) {
+function getJSON (dataFile) {
     const resp = []
-    if (is_mturk) 
-        data_file = "https://www.davidheineman.github.io/phrase-interface/" + data_file
+    if (isMturk) {
+        dataFile = 'https://www.davidheineman.github.io/phrase-interface/' + dataFile
+    }
     $.ajax({
-        url: data_file,
+        url: dataFile,
         type: 'GET',
         dataType: 'json',
         async: false,
@@ -391,59 +399,109 @@ function getJSON (data_file) {
 
 // Download JSON data
 function downloadData (data) {
-    if (is_mturk) {
-        $('#mturk-hit').val(JSON.stringify(data));
+    if (isMturk) {
+        $('#mturk-hit').val(JSON.stringify(data))
     } else {
         const rawData = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data))
         $('<a></a>').attr('href', rawData).attr('download', 'output.json')[0].click()
     }
 }
 
-$('#submit').click(function () {
-    // Check to see if every questioned is answered
-    let valid = true
-
-    if (checkInvalid) {
-        $('.btn-group').each(function () {
-            // It's invalid if: (1) the question isn't hidden, (2) "YES" has not been selected, and (3) "NO" has not been selected
-            if (!$($(this).parent()[0]).hasClass('question-hide') && !($(this.children[0]).hasClass('active') || $(this.children[1]).hasClass('active'))) {
-                valid = false
-                $(this).addClass('btn-group-invalid')
-            }
-        })
-    }
-
-    if (valid) {
-        moveToNextAnnotation()
-    }
-})
-
-// Readjust lines on window resize
-$(window).resize(function () {
-    drawInterface()
-    displayPhrase(phraseIdx)
-})
-
 // Generate Y/N box for each question
-const questions = document.getElementsByClassName('question')
-for (let i = 0; i < questions.length; i++) {
-    const qhtml = "<div class='btn-group btn-group-toggle' data-toggle='buttons'><label class='btn btn-outline-success'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked>YES</label><label class='btn btn-outline-danger'><input type='radio' name='options' id='option2' class='radio-hide' autocomplete='off'>NO</label></div>"
+function renderYesNoBoxes () {
+    const questions = document.getElementsByClassName('question')
+    for (let i = 0; i < questions.length; i++) {
+        const yes = $('<label>', {
+            class: 'btn btn-outline-success',
+            text: 'YES'
+        }).append(
+            $('<input>', {
+                type: 'radio',
+                name: 'options',
+                id: 'option1',
+                class: 'radio-hide',
+                autocomplete: 'off',
+                checked: 'checked'
+            })
+        )
+        const no = $('<label>', {
+            class: 'btn btn-outline-danger',
+            text: 'NO'
+        }).append(
+            $('<input>', {
+                type: 'radio',
+                name: 'options',
+                id: 'option2',
+                class: 'radio-hide',
+                autocomplete: 'off'
+            })
+        )
+        // Creates a N/A button
+        // const na = $('<label>', {
+        //     class: 'btn btn-outline-warning',
+        //     text: 'NA'
+        // }).append(
+        //     $('<input>', {
+        //         type: 'radio',
+        //         name: 'options',
+        //         id: 'option1',
+        //         class: 'radio-hide',
+        //         autocomplete: 'off'
+        //     })
+        // )
+        const questionContainer = $('<div>', {
+            class: 'btn-group btn-group-toggle',
+            'data-toggle': 'buttons'
+        }).append(
+            yes, no
+        )
+        $(questions[i]).html(questionContainer.prop('outerHTML') + $(questions[i]).html())
+    }
+}
 
-    // Contains NA option \/
-    // var qhtml = "<div class='btn-group btn-group-toggle' data-toggle='buttons'><label class='btn btn-outline-success'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked>YES</label><label class='btn btn-outline-warning'><input type='radio' name='options' id='option1' class='radio-hide' autocomplete='off' checked=''>NA</label><label class='btn btn-outline-danger'><input type='radio' name='options' id='option2' class='radio-hide' autocomplete='off'>NO</label></div>"
+function setButtonBehavior () {
+    $('#submit').click(function () {
+        // Check to see if every questioned is answered
+        let valid = true
 
-    questions[i].innerHTML = qhtml + questions[i].innerHTML
+        if (checkInvalid) {
+            $('.btn-group').each(function () {
+                // It's invalid if: (1) the question isn't hidden, (2) "YES" has not been selected, and (3) "NO" has not been selected
+                if (!$($(this).parent()[0]).hasClass('question-hide') && !($(this.children[0]).hasClass('active') || $(this.children[1]).hasClass('active'))) {
+                    valid = false
+                    $(this).addClass('btn-group-invalid')
+                }
+            })
+        }
+
+        if (valid) {
+            moveToNextAnnotation()
+        }
+    })
+}
+
+function startupInterface () {
+    // Readjust lines on window resize
+    $(window).resize(function () {
+        drawInterface()
+        displayPhrase(phraseIdx)
+    })
+
+    // Initialize the annotation interface
+    setButtonBehavior()
+    renderYesNoBoxes()
+    initializeInterface()
+    displayPhrase(phraseIdx)
 }
 
 // Gather settings for interface
-const is_mturk = false
+const isMturk = false
 const data = getJSON('data/input.json')
 const allAnswers = [] // Stores outputs over all sentences
 const checkInvalid = false
 const enableHighlightToggle = true
 
-// Initialize the annotation interface
 let original, simplified, alignment, phraseIdx, sentenceAnswers
 let sentId = 0
-initializeInterface()
-displayPhrase(phraseIdx)
+
+startupInterface()
