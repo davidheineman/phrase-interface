@@ -237,10 +237,10 @@ function drawInterface () {
     // Add ability to toggle highlighting edits
     $('#highlight-toggle').click(function () {
         if ($('#highlight-toggle').is(':checked')) {
-            $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') })
-            $('.token').removeClass('hide-highlight')
+            $('.token').each(function () { $(this).addClass('hide-highlight') })
+            $('.bolded-perm').removeClass('hide-highlight')
         } else {
-            $('#in-container > span, #out-container > span').each(function () { $(this).removeClass('hide-highlight') })
+            $('.token').each(function () { $(this).removeClass('hide-highlight') })
         }
     })
 }
@@ -294,8 +294,8 @@ function displayPhrase (i) {
     }
 
     // Hides highlight for other annotations
-    if ($('#highlight-toggle').is(':checked') || !enableHighlightToggle) {
-        $('#in-container > span, #out-container > span').each(function () { $(this).addClass('hide-highlight') })
+    if ($('#highlight-toggle').is(':checked')) {
+        $('.token').each(function () { $(this).addClass('hide-highlight') })
         $(".token[edit_id='" + i + "']").removeClass('hide-highlight')
     }
 
@@ -499,7 +499,7 @@ const isMturk = false
 const data = getJSON('data/input.json')
 const allAnswers = [] // Stores outputs over all sentences
 const checkInvalid = false
-const enableHighlightToggle = true
+// const enableHighlightToggle = true
 
 let original, simplified, alignment, phraseIdx, sentenceAnswers
 let sentId = 0
