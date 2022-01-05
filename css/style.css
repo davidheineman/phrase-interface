@@ -128,9 +128,9 @@ body, .container {
     margin-bottom: 200px;
 }
 
-body {
-    overflow: hidden; /* Hide scrollbars */
-}
+/* body {
+    overflow: hidden;
+} */
 
 .a-container h3 {
     font-size: 20px;
