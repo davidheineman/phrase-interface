@@ -1,0 +1,63 @@
+[    
+    {
+        "Type": "Generated Alignment w/ Heuristic-based Fixes",
+        "ID": 0,
+        "Original": "Aliteracy (sometimes spelled alliteracy) is the state of being able to read but being uninterested in doing so.",
+        "Simplification": "Aliteracy is when one is able to read but is not interested in reading.",
+        "Alignment": [
+            [[10,40],null],
+            [null,[13,21]],
+            [[44,56],null],
+            [[57,62],[22,24]],
+            [[80,98],[42,59]],
+            [[102,111],[63,71]]
+        ]
+    },
+    {
+        "Type": "Generated Alignment",
+        "ID": 0,
+        "Original": "Aliteracy (sometimes spelled alliteracy) is the state of being able to read but being uninterested in doing so.",
+        "Simplification": "Aliteracy is when one is able to read but is not interested in reading.",
+        "Alignment": [
+            [[10,20],null],
+            [[21,28],null],
+            [null,[13,17]],
+            [[29,40],null],
+            [null,[18,21]],
+            [[44,47],null],
+            [[48,53],null],
+            [[54,56],null],
+            [[57,62],[22,24]],
+            [[80,98],[42,59]],
+            [[102,111],[63,71]]
+        ]
+    },
+    {
+        "Type":"Human Aligned",
+        "ID":0,
+        "Original":"Aliteracy (sometimes spelled alliteracy) is the state of being able to read but being uninterested in doing so.",
+        "Simplification":"Aliteracy is when one is able to read but is not interested in reading.",
+        "Alignment": [
+            [[10,40],null],
+            [[44,62],[13,24]],
+            [[80,98],[42,59]],
+            [[102,110],null], 
+            [null,[63,70]]
+        ]
+    }, 
+    {
+        "Type":"Span-Fixed from Mounica's Project",
+        "ID":0,
+        "Original":"Aliteracy (sometimes spelled alliteracy) is the state of being able to read but being uninterested in doing so.",
+        "Simplification":"Aliteracy is when one is able to read but is not interested in reading.",
+        "Alignment": [
+            [0,9,9],
+            [1,13,17],
+            [0,17,17],
+            [1,18,24],
+            [1,42,59],
+            [0,62,62],
+            [1,63,71]
+        ]
+    }
+]

@@ -4,15 +4,11 @@
         "Original": "The Seattle kids petitioned Washington state last year to adopt stricter science-based regulations to protect them against climate change.",
         "Simplification": "The Seattle kids asked the Washington state last year to take tougher rules against climate change.",
         "Alignment": [
-            [[17, 27],[17, 22]],
-            [[28, 38],[23, 26]],
-            [[58, 63],[57, 61]],
-            [[64, 72],[62, 69]],
-            [[73, 86],null],
-            [[87, 98],[70, 75]],
-            [[99, 101],null],
-            [[102, 109],null],
-            [[110, 114],null]
+            [[17,38],[17,26]],
+            [[58,72],[57,69]],
+            [[73,86],null],
+            [[87,98],[70,75]],
+            [[99,114],null]
         ]
     },
     {
@@ -20,17 +16,9 @@
         "Original": "Complex Sea slugs dubbed sacoglossans are some of the most remarkable biological burglars on the planet.",
         "Simplification": "Scientists say these are some of the most interesting creatures on the planet.",
         "Alignment": [
-            [[0, 7],null],
-            [null,[0, 10]],
-            [[8, 11],null],
-            [null,[11, 14]],
-            [[12, 17],null],
-            [null,[15, 20]],
-            [[18, 24],null],
-            [[25, 37],null],
-            [[59, 69],[42, 53]],
-            [[70, 80],[54, 63]],
-            [[81, 89],[54, 63]]
+            [[0,37],null],
+            [null,[0,20]],
+            [[59,89],[42,63]]
         ]
     },
     {
@@ -38,10 +26,8 @@
         "Original": "The obtained results are summarized in section 5.",
         "Simplification": "The results of the investigation are summarized in section 5.",
         "Alignment": [
-            [[4, 12],null],
-            [null,[12, 14]],
-            [null,[15, 18]],
-            [null,[19, 32]]
+            [[4,12],null],
+            [null,[12,32]]
         ]
     },
     {
@@ -55,23 +41,11 @@
         "Original": "Parental feedback on the menu additions so far, from some of the early adopter markets, has been “phenomenal,” Leverton said.",
         "Simplification": "So far, parents parents have feedback on the menu changes has been a great deal, he added.",
         "Alignment": [
-            [[0, 8],[16, 23]],
-            [[0, 8],[8, 15]],
-            [null,[24, 28]],
-            [[30, 39],[50, 57]],
-            [[40, 42],[0, 2]],
-            [[48, 52],null],
-            [[53, 57],null],
-            [[58, 60],null],
-            [[61, 64],null],
-            [[65, 70],null],
-            [[71, 78],null],
-            [[79, 87],null],
-            [[97, 110],[75, 80]],
-            [[97, 110],[67, 68]],
-            [[97, 110],[69, 74]],
-            [[111, 119],[81, 83]],
-            [[120, 125],[84, 90]]
+            [[0,8],[8,23]],
+            [null,[24,28]],
+            [[30,39],[50,57]],
+            [[48,87],null],
+            [[97,125],[67,90]]
         ]
     },
     {
@@ -79,12 +53,10 @@
         "Original": "One of the device’s inventors explained to the president that the machine was a prototype.",
         "Simplification": "One of the inventors told the president that the first design was a design.",
         "Alignment": [
-            [[11, 19],null],
-            [[30, 39],[21, 25]],
-            [[40, 42],[21, 25]],
-            [[66, 73],[55, 61]],
-            [[66, 73],[49, 54]],
-            [[80, 90],[68, 75]]
+            [[11,19],null],
+            [[30,42],[21,25]],
+            [[66,73],[49,61]],
+            [[80,90],[68,75]]
         ]
     },
     {
@@ -92,22 +64,14 @@
         "Original": "Some of Russian space agency's launching missions used hydranize as fuel for the initial few stages.",
         "Simplification": "Hydranize is used to power the early stages of some Russian launchers.",
         "Alignment": [
-            [[0, 4],[47, 51]],
-            [[16, 21],null],
-            [[22, 30],null],
-            [[31, 40],[60, 70]],
-            [[41, 49],null],
-            [[50, 54],[10, 12]],
-            [[55, 64],[0, 9]],
-            [[65, 67],[18, 20]],
-            [[65, 67],[21, 26]],
-            [[68, 72],[18, 20]],
-            [[68, 72],[21, 26]],
-            [[73, 76],[21, 26]],
-            [[73, 76],[18, 20]],
-            [[81, 88],[31, 36]],
-            [[89, 92],null],
-            [[93, 100],[37, 43]]
+            [[16,30],null],
+            [[31,40],[60,70]],
+            [[41,49],null],
+            [[50,54],[10,12]],
+            [[65,76],[18,26]],
+            [[81,88],[31,36]],
+            [[89,92],null],
+            [[93,100],[37,43]]
         ]
     },
     {
@@ -115,11 +79,22 @@
         "Original": "They float in and out of formations that combine the underwater world with the stage.",
         "Simplification": "They float in and out of places that combine stage with the underwater.",
         "Alignment": [
-            [[25, 35],[25, 31]],
-            [[53, 63],[60, 71]],
-            [[64, 69],[60, 71]],
-            [[75, 78],[45, 50]],
-            [[79, 85],[45, 50]]
+            [[25,35],[25,31]],
+            [[53,69],[60,71]],
+            [[75,85],[45,50]]
+        ]
+    },
+    {
+        "ID": 8,
+        "Original": "Aliteracy (sometimes spelled alliteracy) is the state of being able to read but being uninterested in doing so.",
+        "Simplification": "Aliteracy is when one is able to read but is not interested in reading.",
+        "Alignment": [
+            [[10,40],null],
+            [null,[13,21]],
+            [[44,56],null],
+            [[57,62],[22,24]],
+            [[80,98],[42,59]],
+            [[102,111],[63,71]]
         ]
     }
 ]

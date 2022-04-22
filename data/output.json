@@ -1,0 +1,38 @@
+[
+    {
+        "ID":0,
+        "Original":"Complex Sea slugs dubbed sacoglossans are some of the most remarkable biological burglars on the planet.",
+        "Simplified":"Scientists say these are some of the most interesting creatures on the planet",
+        "Alignment":[[null,[0,14]],[[0,17],[15,20]],[[18,37],null],[[59,69],[42,53]],[[70,89],[54,63]]],
+        "Annotations":[
+            {
+                "Original":null,
+                "Simplified":"Scientists say",
+                "Alignment":[null,[0,14]],
+                "Scores":[1,1,0,null,1,1,0,null,null]
+            },{
+                "Original":"Complex Sea slugs",
+                "Simplified":"these",
+                "Alignment":[[0,17],[15,20]],
+                "Scores":[1,1,0,null,1,1,0,0,1]
+            },{
+                "Original":"dubbed sacoglossans",
+                "Simplified":null,
+                "Alignment":[[18,37],null],
+                "Scores":[1,1,0,null,1,null,null,1,0]
+            },{
+                "Original":"remarkable",
+                "Simplified":"interesting",
+                "Alignment":[[59,69],[42,53]],
+                "Scores":[1,1,1,null,1,0,0,1,0]
+            },{
+                "Original":"biological burglars",
+                "Simplified":"creatures",
+                "Alignment":[[70,89],[54,63]],
+                "Scores":[1,1,1,null,0,0,1,1,0]
+            }
+        ]
+    },{
+        "ID":1,"Original":"They float in and out of formations that combine the underwater world with the stage.","Simplified":"They float in and out of places that combine stage with the underwater.","Alignment":[[[25,35],[25,31]],[[53,69],[60,71]],[[75,85],[45,50]]],"Annotations":[{"Original":"formations","Simplified":"places","Alignment":[[25,35],[25,31]],"Scores":[1,1,0,null,1,0,1,0,1]},{"Original":"underwater world","Simplified":"underwater.","Alignment":[[53,69],[60,71]],"Scores":[1,1,0,null,1,0,1,1,1]},{"Original":"the stage.","Simplified":"stage","Alignment":[[75,85],[45,50]],"Scores":[0,1,1,null,0,1,1,0,1]}]
+    }
+]

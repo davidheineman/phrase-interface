@@ -131,12 +131,12 @@ function parseAlignment (sent, type) {
     for (let i = 0; i < tmp.length; i++) { tmp[i].push(i) }
     if (type !== 'original') {
         tmp.sort((a, b) => {
-            if (a[1] === null) { return Infinity } else if (b[1] === null) { return Infinity } else { return a[1][0] - b[1][0] }
+            if (a[1] === null) { return 1 } else if (b[1] === null) { return -1 } else if (a[1][0] < b[1][0]) { return -1 } else if (a[1][0] > b[1][0]) { return 1 } else { return 0 }
         })
     }
 
     const out = []
-    let lastEndingIdx = 0; let edit
+    let lastEndingIdx = 0; let edit; let endIdx; let startIdx
 
     for (let i = 0; i < tmp.length; i++) {
         (type === 'original') ? edit = tmp[i][0] : edit = tmp[i][1]
@@ -146,8 +146,8 @@ function parseAlignment (sent, type) {
         if (edit === null) continue
 
         // Get the start and end indices of the edit
-        const startIdx = edit[0]
-        const endIdx = edit[1]
+        startIdx = edit[0]
+        endIdx = edit[1]
 
         // Add the intermediate text if it the edits aren't adjacent
         if (startIdx !== 0 && startIdx !== lastEndingIdx) { out.push([null, sent.substring(lastEndingIdx, startIdx), lastEndingIdx]) }
@@ -155,17 +155,19 @@ function parseAlignment (sent, type) {
         // Add the edit
         out.push([indexOfEdit, sent.substring(startIdx, endIdx), startIdx])
 
-        // Add the end of the sentence if applicable
-        if (i === alignment.length - 1 && endIdx !== sent.length) { out.push([null, sent.substring(endIdx), endIdx]) }
-
         lastEndingIdx = endIdx
     }
+
+    // Add the end of the sentence if applicable
+    if (endIdx !== sent.length) { out.push([null, sent.substring(endIdx), endIdx]) }
 
     // Sort the arrays in out by their last element and delete the last element of each array
     out.sort((a, b) => a[2] - b[2])
     for (let i = 0; i < out.length; i++) {
         out[i] = out[i].slice(0, 2)
     }
+
+    console.log(out)
 
     return out
 }
@@ -221,7 +223,7 @@ function drawInterface () {
 
         // Add ability to switch to the edit on click
         $("[edit_id='" + i + "']").click(function () {
-            highlightNextPhrase(i)
+            moveToNextAnnotation(i)
         })
 
         // Draw line between two paraphrases
@@ -326,13 +328,41 @@ function displayPhrase (i) {
     // }
 }
 
-function moveToNextAnnotation () {
+function checkFormValid () {
+    // Check to see if every questioned is answered
+    let valid = true
+
+    if (checkInvalid) {
+        $('.btn-group').each(function () {
+            // It's invalid if: (1) the question isn't hidden, (2) "YES" has not been selected, and (3) "NO" has not been selected
+            if (!$($(this).parent()[0]).hasClass('question-hide') && !($(this.children[0]).hasClass('active') || $(this.children[1]).hasClass('active'))) {
+                valid = false
+                $(this).addClass('btn-group-invalid')
+            }
+        })
+    }
+
+    return valid
+}
+
+function moveToNextAnnotation (index = -1) {
+    if (!checkFormValid()) return
+
     // Store answers to current phrase
     sentenceAnswers.Annotations.push(getPhraseAnswers())
 
     // Either we move to the next phrase, the next sentence, or we download data
-    if (phraseIdx < alignment.length - 1) {
-        highlightNextPhrase()
+    if (phraseIdx < alignment.length - 1 || index !== -1) {
+        $(".token[edit_id='" + phraseIdx + "']").removeClass('bolded')
+        $(".line[edit_id='" + phraseIdx + "']").removeClass('bolded-line')
+
+        if (index === -1) {
+            phraseIdx++
+        } else {
+            phraseIdx = index
+        }
+
+        displayPhrase(phraseIdx)
     } else {
         // Store answers to sentence before moving on to next sentence
         allAnswers.push(sentenceAnswers)
@@ -369,15 +399,6 @@ function getPhraseAnswers () {
         Alignment: alignment[phraseIdx],
         Scores: scores
     }
-}
-
-function highlightNextPhrase (index = -1) {
-    $(".token[edit_id='" + phraseIdx + "']").removeClass('bolded')
-    $(".line[edit_id='" + phraseIdx + "']").removeClass('bolded-line')
-
-    if (index === -1) { phraseIdx++ } else { phraseIdx = index }
-
-    displayPhrase(phraseIdx)
 }
 
 function getJSON (dataFile) {
@@ -460,24 +481,7 @@ function renderYesNoBoxes () {
 }
 
 function setButtonBehavior () {
-    $('#submit').click(function () {
-        // Check to see if every questioned is answered
-        let valid = true
-
-        if (checkInvalid) {
-            $('.btn-group').each(function () {
-                // It's invalid if: (1) the question isn't hidden, (2) "YES" has not been selected, and (3) "NO" has not been selected
-                if (!$($(this).parent()[0]).hasClass('question-hide') && !($(this.children[0]).hasClass('active') || $(this.children[1]).hasClass('active'))) {
-                    valid = false
-                    $(this).addClass('btn-group-invalid')
-                }
-            })
-        }
-
-        if (valid) {
-            moveToNextAnnotation()
-        }
-    })
+    $('#submit').click(function () { moveToNextAnnotation() })
 }
 
 function startupInterface () {
@@ -496,7 +500,7 @@ function startupInterface () {
 
 // Gather settings for interface
 const isMturk = false
-const data = getJSON('data/input.json')
+const data = getJSON('data/input_mounica.json')
 const allAnswers = [] // Stores outputs over all sentences
 const checkInvalid = false
 // const enableHighlightToggle = true

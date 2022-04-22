@@ -4,7 +4,7 @@ Allows annotating text-to-text sentence diffs. by paraphrase. `index.html` can b
 **See a [demo of the interface](https://davidheineman.github.io/phrase-interface/)**
 
 ### How to use
-Identify the edits between the sentences (ex. by using a ![phrase alignment tool](https://github.com/chaojiang06/neural-Jacana)) and replace `data/input.json` (see below).
+Identify the edits between the sentences (ex. by using a [phrase alignment tool](https://github.com/chaojiang06/neural-Jacana)) and replace `data/input.json` (see below).
 
 #### Format of `input.json`
 Each sentence just requires an ID, input and output sentence, and the indices of each edit in the corresponsing input/output sentence. See `data/example_input.json` for an example.
