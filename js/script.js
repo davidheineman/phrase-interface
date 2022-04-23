@@ -482,13 +482,11 @@ function setButtonBehavior () {
     $('#submit').click(function () { moveToNextAnnotation() })
 }
 
-function startupInterface (isMturk, dataFile, checkIfInvalid, id) {
+function startupInterface (setMturk, dataFile, checkIfInvalid, id) {
     // Apply arguments
-    isMturk = false
+    isMturk = setMturk
     data = getJSON(dataFile)
     checkInvalid = checkIfInvalid
-
-    console.log(id)
 
     if (isMturk) {
         sentId = id
