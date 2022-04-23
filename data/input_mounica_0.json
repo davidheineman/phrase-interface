@@ -6,6 +6,7 @@
         "Alignment": [
             [[0,11],[0,5]],
             [[52,62],[46,48]],
+            [[77,89],[63,78]],
             [[103,111],[92,103]]
         ]
     },
@@ -15,8 +16,10 @@
         "Simplification": "He wrote many other pieces about Hiawatha, including The Death of Minnehaha, The Song of Hiawatha, and Hiawatha's Departure.",
         "Alignment": [
             [[3,29],[3,13]],
-            [[49,58],[33,52]],
-            [[83,94],null]
+            [null,[43,52]],
+            [[49,58],[33,42]],
+            [[83,94],null],
+            [[107,115],[89,98]]
         ]
     },
     {
@@ -33,10 +36,13 @@
         "Original": "The island chain forms part of the Hebrides, separated from the Scottish mainland and from the Inner Hebrides by the stormy waters of the Minch, the Little Minch and the Sea of the Hebrides.",
         "Simplification": "Hebrides are an island chain separated from the Scottish mainland and from the Inner Hebrides by the Minch waters little Minch and the sea of the hebrides.",
         "Alignment": [
-            [[0,44],[0,28]],
+            [null,[0,8]],
+            [[0,22],[9,15]],
+            [[23,44],null],
             [[117,123],null],
-            [[124,143],[101,113]],
-            [[145,148],null]
+            [[131,137],null],
+            [[138,144],[101,106]],
+            [[145,148],[114,120]]
         ]
     },
     {
@@ -44,7 +50,10 @@
         "Original": "Historically, the sensations of itch and pain have not been considered to be independent of each other until recently, where it was found that itch has several features in common with pain, but exhibits notable differences.",
         "Simplification": "Historically, the sensations of itch and pain have not been considered to be independent of each other until recently, where it was found that itch is similar to pain, but has some differences.",
         "Alignment": [
-            [[148,151],[148,161]],
+            [[148,151],[148,150]],
+            [[152,178],null],
+            [null,[151,158]],
+            [[179,183],[159,161]],
             [[194,210],[172,180]]
         ]
     },
@@ -53,7 +62,10 @@
         "Original": "Historically, the sensations of itch and pain have not been considered to be independent of each other until recently, where it was found that itch has several features in common with pain, but exhibits notable differences.",
         "Simplification": "Historically, the sensations of itch and pain have not been considered to be independent of each other until recently, where it was found that itch is similar to pain, but has some differences.",
         "Alignment": [
-            [[148,151],[148,161]],
+            [[148,151],[148,150]],
+            [[152,178],null],
+            [null,[151,158]],
+            [[179,183],[159,161]],
             [[194,210],[172,180]]
         ]
     },
@@ -62,11 +74,13 @@
         "Original": "He served as the prime minister of Egypt between 1945 and 1946 and again from 1946 and 1948.",
         "Simplification": "He was Prime Minister of Egypt twice, first from 1945 to 1946, and then again in 1948.",
         "Alignment": [
-            [[3,16],[3,6]],
+            [[3,16],[3,12]],
             [null,[31,43]],
-            [[41,62],[44,61]],
+            [[41,48],[44,48]],
+            [[54,62],[54,62]],
             [null,[67,71]],
-            [[73,91],[78,85]]
+            [[73,77],[78,80]],
+            [[78,86],null]
         ]
     },
     {
@@ -91,7 +105,8 @@
         "Original": "Seventy-five defencemen are in the Hall of Fame, more than any other current position, while only 35 goaltenders have been inducted.",
         "Simplification": "Seventy-five defencemen are in the hall of fame , more than any other current position, while only 35 goaltenders have been added.",
         "Alignment": [
-            [[123,131],[124,129]]
+            [[43,48],[43,49]],
+            [[123,132],[124,130]]
         ]
     },
     {
@@ -106,12 +121,13 @@
         "Simplification": "Jeanne Demessieux (born Paris, 13 February 1921; died Paris, 11 November 1968) was a French organist and composer.",
         "Alignment": [
             [[7,22],null],
-            [null,[19,29]],
-            [[35,52],[31,47]],
-            [null,[49,59]],
-            [[53,70],[61,77]],
-            [[96,103],null],
-            [[119,128],null]
+            [[34,52],[18,48]],
+            [null,[49,60]],
+            [[62,72],[61,78]],
+            [[86,95],[92,100]],
+            [[96,104],null],
+            [[105,114],[105,114]],
+            [[119,129],null]
         ]
     },
     {
@@ -120,7 +136,7 @@
         "Simplification": "The Prime Minister stays in office only as long as he or she has the support of the House of Commons.",
         "Alignment": [
             [[61,68],[61,64]],
-            [[88,99],[84,100]]
+            [[88,100],[84,101]]
         ]
     },
     {
@@ -131,7 +147,8 @@
             [[0,7],[0,13]],
             [[102,108],[108,119]],
             [[138,147],[149,154]],
-            [null,[199,218]]
+            [[186,192],[193,198]],
+            [null,[199,219]]
         ]
     },
     {
@@ -140,7 +157,7 @@
         "Simplification": "The vagina is very elastic and stretches to many times its normal diameter during a vaginal birth.",
         "Alignment": [
             [[14,24],[14,18]],
-            [null,[82,83]]
+            [[88,95],[82,83]]
         ]
     },
     {
@@ -148,9 +165,11 @@
         "Original": "The tarantula, the trickster character, spun a black cord and, attaching it to the ball, crawled away fast to the east, pulling on the cord with all his strength.",
         "Simplification": "The spider , the trickster character, made a black cord and attached to the ball, crawled away fast to the east, pulling on the cord , with all his strength.",
         "Alignment": [
-            [[4,13],[4,10]],
+            [[4,14],[4,10]],
+            [null,[11,12]],
             [[40,44],[38,42]],
-            [[63,75],[60,68]]
+            [[58,75],[56,68]],
+            [null,[133,134]]
         ]
     },
     {
@@ -160,7 +179,8 @@
         "Alignment": [
             [[60,68],[60,69]],
             [[73,80],[74,78]],
-            [[89,95],[87,105]]
+            [null,[87,98]],
+            [[89,95],[99,105]]
         ]
     },
     {
@@ -168,8 +188,15 @@
         "Original": "Perry Saturn (with Terri) defeated Eddie Guerrero (with Chyna) to win the WWF European Championship (8:10) Saturn pinned Guerrero after a Diving elbow drop.",
         "Simplification": "Perry saturn ( with terri ) defeated eddie guerrero to win the wwf european championship ( 8:10 ) and defeated saturn after a diving elbow drop.",
         "Alignment": [
-            [[50,62],null],
-            [[107,129],[98,117]]
+            [[13,25],[13,27]],
+            [[35,62],[37,51]],
+            [null,[89,90]],
+            [[100,106],[91,95]],
+            [[107,113],null],
+            [null,[96,101]],
+            [[114,120],[102,110]],
+            [[121,129],null],
+            [null,[111,117]]
         ]
     },
     {
@@ -178,10 +205,13 @@
         "Simplification": "Giardia lamblia also known as Lamblia intestinalis and Giardia duodenalis is a parasite with parts that goes into the small intestine causing infection.",
         "Alignment": [
             [[16,32],[16,29]],
+            [[66,77],[63,73]],
             [[83,104],null],
             [null,[88,98]],
             [[119,146],[104,113]],
-            [[176,186],[142,151]]
+            [[157,167],[124,133]],
+            [null,[142,152]],
+            [[176,187],null]
         ]
     },
     {
@@ -189,10 +219,12 @@
         "Original": "Terms such as \"undies\" for underwear and \"movie\" for \"moving picture\" are oft-heard terms in English.",
         "Simplification": "For example, \"undies\" means \"underwear\" in English, and \"movie\" means \"moving picture\".",
         "Alignment": [
-            [[0,13],[0,11]],
-            [[23,26],[22,27]],
+            [[0,13],[0,12]],
+            [[23,36],[22,39]],
             [[49,52],[64,69]],
-            [[70,89],null]
+            [[61,69],[78,87]],
+            [[70,89],null],
+            [[93,101],[43,51]]
         ]
     },
     {
@@ -200,8 +232,10 @@
         "Original": "The term dorsal refers to anatomical structures that are either situated toward or grow off that side of an animal.",
         "Simplification": "The term dorsal refers to the parts of the body that are on or grow off that side of an animal.",
         "Alignment": [
-            [[26,47],[26,47]],
+            [[26,36],[26,42]],
+            [[37,47],null],
             [[57,63],null],
+            [null,[43,47]],
             [[64,79],[57,59]]
         ]
     },
@@ -210,7 +244,9 @@
         "Original": "Aliteracy (sometimes spelled alliteracy) is the state of being able to read but being uninterested in doing so.",
         "Simplification": "Aliteracy (sometimes spelled alliteracy) is when one can read, but does not want to do so.",
         "Alignment": [
-            [[44,75],[44,63]],
+            [[44,56],null],
+            [null,[44,48]],
+            [[57,75],[49,62]],
             [[80,107],[67,86]]
         ]
     },
@@ -225,6 +261,9 @@
         "Original": "In return, Rollo swore fealty to Charles, converted to Christianity, and undertook to defend the northern region of France against the incursions of other Viking groups.",
         "Simplification": "In return, rollo swore fealty to charles , converted to christianity , and set out to defend the north of france from the raids of other viking groups.",
         "Alignment": [
+            [null,[33,40]],
+            [[33,41],[41,42]],
+            [[55,68],[56,70]],
             [[73,82],[75,82]],
             [[97,112],[97,102]],
             [[123,130],[113,117]],
@@ -245,7 +284,7 @@
         "Original": "During an interview, Edward Gorey mentioned that Bawden was one of his favorite artists, lamenting the fact that not many people remembered or knew about this fine artist.",
         "Simplification": "During an interview, producer edward gorey said that bawden was one of his favorite artists, and said that not many people remembered or knew about this fine artist.",
         "Alignment": [
-            [[21,33],[21,42]],
+            [[21,33],[21,36]],
             [[34,43],[43,47]],
             [[89,107],[93,101]]
         ]
@@ -255,9 +294,13 @@
         "Original": "Furthermore, she appeared in several music videos, including \"It Girl\" by John Oates and \"Just Lose It\" by Eminem.",
         "Simplification": "She has also been in several music videos, including \"Just Lose It\" by Eminem and \"It Girl\" by John Oates.",
         "Alignment": [
-            [[0,12],[4,12]],
+            [[0,12],null],
+            [null,[4,12]],
             [[17,25],[13,17]],
-            [[51,113],[43,105]]
+            [[71,73],null],
+            [[79,84],[100,106]],
+            [null,[92,94]],
+            [[107,114],[71,77]]
         ]
     },
     {
@@ -265,7 +308,11 @@
         "Original": "The PAD called for the resignation of the governments of Thaksin Shinawatra, Samak Sundaravej and Somchai Wongsawat, whom the PAD accused of being proxies for Thaksin.",
         "Simplification": "The pad called for the resignation of the government of thaksin shinawatra , samak sundaravej and somchai wongsawat , whom the pad accused of being proxies for thaksin.",
         "Alignment": [
-            [[42,53],[42,52]]
+            [[42,53],[42,52]],
+            [[65,76],[64,74]],
+            [null,[75,76]],
+            [[106,116],[106,115]],
+            [null,[116,117]]
         ]
     },
     {
@@ -273,7 +320,8 @@
         "Original": "Weelkes was later to find himself in trouble with the Chichester Cathedral authorities for his heavy drinking and immoderate behaviour.",
         "Simplification": "Later, Weelkes found himself in trouble with the Chichester Cathedral authorities for his drunk and inappropriate behaviour.",
         "Alignment": [
-            [[8,20],[0,5]],
+            [null,[0,6]],
+            [[8,20],null],
             [[21,25],[15,20]],
             [[95,109],[90,95]],
             [[114,124],[100,113]]
@@ -286,7 +334,7 @@
         "Alignment": [
             [[27,34],[27,36]],
             [[65,68],null],
-            [[92,94],[90,100]]
+            [[92,94],[90,97]]
         ]
     }
 ]

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const add = Symbol('add'); const del = Symbol('del'); const par = Symbol('rp')
 
 function getAlignmentType (edit) {
