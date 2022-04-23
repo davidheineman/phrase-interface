@@ -7,6 +7,7 @@ function getAlignmentType (edit) {
 // Called each time a new sentence is displayed
 function initializeInterface () {
     // Reset variables
+    phraseIdx = 0
     original = data[sentId].Original
     simplified = data[sentId].Simplification
     alignment = data[sentId].Alignment
@@ -165,8 +166,6 @@ function parseAlignment (sent, type) {
     for (let i = 0; i < out.length; i++) {
         out[i] = out[i].slice(0, 2)
     }
-
-    console.log(out)
 
     return out
 }
@@ -490,9 +489,9 @@ function startupInterface (isMturk, dataFile, checkIfInvalid, id) {
     checkInvalid = checkIfInvalid
 
     if (isMturk) {
-        phraseIdx = id
+        sentId = id
     } else {
-        phraseIdx = 0
+        sentId = 0
     }
 
     // Readjust lines on window resize
@@ -513,5 +512,4 @@ let isMturk, data, checkInvalid
 const allAnswers = [] // Stores outputs over all sentences
 // const enableHighlightToggle = true
 
-let original, simplified, alignment, phraseIdx, sentenceAnswers
-let sentId = 0
+let original, simplified, alignment, phraseIdx, sentenceAnswers, sentId
