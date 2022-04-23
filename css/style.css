@@ -163,7 +163,7 @@ body, .container {
 }
 
 /* Overrides Amazon MTurk's Font */
-body {
+form {
     font-family: var(--bs-font-sans-serif);
 }
 
