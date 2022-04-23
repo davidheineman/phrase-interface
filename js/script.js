@@ -10,7 +10,6 @@ function initializeInterface () {
     original = data[sentId].Original
     simplified = data[sentId].Simplification
     alignment = data[sentId].Alignment
-    phraseIdx = 0
 
     sentenceAnswers = {
         ID: data[sentId].ID,
@@ -404,7 +403,7 @@ function getPhraseAnswers () {
 function getJSON (dataFile) {
     const resp = []
     if (isMturk) {
-        dataFile = 'https://www.davidheineman.github.io/phrase-interface/' + dataFile
+        dataFile = 'https://davidheineman.github.io/phrase-interface/' + dataFile
     }
     $.ajax({
         url: dataFile,
@@ -484,7 +483,18 @@ function setButtonBehavior () {
     $('#submit').click(function () { moveToNextAnnotation() })
 }
 
-function startupInterface () {
+function startupInterface (isMturk, dataFile, checkIfInvalid, id) {
+    // Apply arguments
+    isMturk = false
+    data = getJSON(dataFile)
+    checkInvalid = checkIfInvalid
+
+    if (isMturk) {
+        phraseIdx = id
+    } else {
+        phraseIdx = 0
+    }
+
     // Readjust lines on window resize
     $(window).resize(function () {
         drawInterface()
@@ -499,13 +509,9 @@ function startupInterface () {
 }
 
 // Gather settings for interface
-const isMturk = false
-const data = getJSON('data/input_mounica.json')
+let isMturk, data, checkInvalid
 const allAnswers = [] // Stores outputs over all sentences
-const checkInvalid = false
 // const enableHighlightToggle = true
 
 let original, simplified, alignment, phraseIdx, sentenceAnswers
 let sentId = 0
-
-startupInterface()
