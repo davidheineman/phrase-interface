@@ -167,7 +167,7 @@ form {
     font-family: var(--bs-font-sans-serif);
 }
 
-crowd-input {
+crowd-input, crowd-button {
     display:none;
 }
 

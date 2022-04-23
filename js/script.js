@@ -374,6 +374,11 @@ function moveToNextAnnotation (index = -1) {
         } else {
             // Done with annotations, download data
             downloadData(allAnswers)
+
+            // For Mturk, we have to submit the HIT
+            if (isMturk) {
+                $($('crowd-form')[0]).submit()
+            }
         }
     }
 }
