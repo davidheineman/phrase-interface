@@ -365,7 +365,8 @@ function moveToNextAnnotation (index = -1) {
         // Store answers to sentence before moving on to next sentence
         allAnswers.push(sentenceAnswers)
 
-        if (sentId < data.length - 1) {
+        // As of now, we only want one sent for each Mturk hit
+        if (sentId < data.length - 1 || isMturk) {
             // Reset interface
             sentId++
             initializeInterface()

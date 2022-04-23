@@ -167,6 +167,10 @@ form {
     font-family: var(--bs-font-sans-serif);
 }
 
+crowd-input {
+    display:none;
+}
+
 /* TEMPORARY PLEASE DELETE */
 .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     max-width: 80%;
