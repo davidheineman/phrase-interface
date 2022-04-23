@@ -162,7 +162,10 @@ body, .container {
     margin-bottom: 40px;
 }
 
-
+/* Overrides Amazon MTurk's Font */
+body {
+    font-family: var(--bs-font-sans-serif);
+}
 
 /* TEMPORARY PLEASE DELETE */
 .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
