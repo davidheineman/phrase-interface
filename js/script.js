@@ -488,6 +488,8 @@ function startupInterface (isMturk, dataFile, checkIfInvalid, id) {
     data = getJSON(dataFile)
     checkInvalid = checkIfInvalid
 
+    console.log(id)
+
     if (isMturk) {
         sentId = id
     } else {
