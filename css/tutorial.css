@@ -1,4 +1,4 @@
-.instructions .card {
+.instructions > .card {
     padding: 16px;
     padding-top: 32px;
 }
@@ -11,10 +11,14 @@
     align-self: center;
 }
 
-.car-err {
-    padding: 0 !important;
-    margin: 0 16px !important;
-    align-self: center;
+.card-err {
+    margin: 0 32px !important;
+    /* max-width: 800px; */
+    /* align-self: center; */
+}
+
+.card-err .card-body {
+    padding: 16px 16px 0 16px !important;
 }
 
 .car-err img {
