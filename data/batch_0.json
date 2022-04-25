@@ -1,0 +1,414 @@
+[
+    {
+        "ID": 0,
+        "Original": "Dr. David Lindenmeyer (Australian National University) has argued that the need for nest boxes indicates that logging practices are not ecologically sustainable, for conserving hollow-dependent species like Leadbeater's possum.",
+        "Simplification": "Dr. david lindenmeyer ( australian national university ) has said that the need for a nest box shows that logging practices are not sustainable, for keeping hollow-dependent species such as leadbeater the possum.",
+        "Alignment": [
+            [[59,65],[61,65]],
+            [[84,104],[84,100]],
+            [[136,148],null],
+            [[166,176],[149,156]],
+            [[202,219],[182,204]]
+        ],
+        "Batch": 1,
+        "ID_from_batch": 7,
+        "Rating": 85,
+        "System": "systems/SBMT-SARI.lower"
+    },
+    {
+        "ID": 1,
+        "Original": "He followed this with several other pieces about Hiawatha: The Death of Minnehaha, Overture to The Song of Hiawatha and Hiawatha's Departure.",
+        "Simplification": "He wrote many other pieces about Hiawatha, including The Death of Minnehaha, The Song of Hiawatha, and Hiawatha's Departure.",
+        "Alignment": [
+            [[3,29],[3,13]],
+            [[49,58],[33,52]],
+            [[83,94],null]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 11,
+        "Rating": 90,
+        "System": "systems/T5.txt"
+    },
+    {
+        "ID": 2,
+        "Original": "This resulted in both Montenegro and Serbia becoming independent countries.",
+        "Simplification": "This led to Serbia and Montenegro becoming independent countries.",
+        "Alignment": [
+            [[5,16],[5,11]],
+            [[17,21],null],
+            [[22,43],[12,33]]
+        ],
+        "Batch": 1,
+        "ID_from_batch": 15,
+        "Rating": 83,
+        "System": "systems/muss_untokenized.txt"
+    },
+    {
+        "ID": 3,
+        "Original": "Perry Saturn (with Terri) defeated Eddie Guerrero (with Chyna) to win the WWF European Championship (8:10) Saturn pinned Guerrero after a Diving elbow drop.",
+        "Simplification": "Perry saturn ( with terri ) defeated eddie guerrero to win the wwf european championship ( 8:10 ) and defeated saturn after a diving elbow drop.",
+        "Alignment": [
+            [[50,62],null],
+            [[107,129],[98,117]]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 26,
+        "Rating": 95,
+        "System": "systems/con_simplification.txt"
+    },
+    {
+        "ID": 4,
+        "Original": "Fives is a British sport believed to derive from the same origins as many racquet sports.",
+        "Simplification": "Fives is a british sport believed to come from the same origins as many racquet sports.",
+        "Alignment": [
+            [[37,43],[37,41]]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 17,
+        "Rating": 83,
+        "System": "systems/Dress-Ls.lower"
+    },
+    {
+        "ID": 5,
+        "Original": "Aliteracy (sometimes spelled alliteracy) is the state of being able to read but being uninterested in doing so.",
+        "Simplification": "Aliteracy (sometimes spelled alliteracy) is when one can read, but does not want to do so.",
+        "Alignment": [
+            [[44,75],[44,63]],
+            [[80,107],[67,86]]
+        ],
+        "Batch": 3,
+        "ID_from_batch": 0,
+        "Rating": 97,
+        "System": "systems/muss_untokenized.txt"
+    },
+    {
+        "ID": 6,
+        "Original": "Furthermore, she appeared in several music videos, including \"It Girl\" by John Oates and \"Just Lose It\" by Eminem.",
+        "Simplification": "She has also been in several music videos, including \"Just Lose It\" by Eminem and \"It Girl\" by John Oates.",
+        "Alignment": [
+            [[0,12],[4,12]],
+            [[17,25],[13,17]],
+            [[51,113],[43,105]]
+        ],
+        "Batch": 3,
+        "ID_from_batch": 5,
+        "Rating": 87,
+        "System": "systems/muss_untokenized.txt"
+    },
+    {
+        "ID": 7,
+        "Original": "The story of Christmas is based on the biblical accounts given in the Gospel of Matthew, namely - and the Gospel of Luke, specifically -.",
+        "Simplification": "The story of christmas is based on the bible accounts given in the gospel of matthew , namely and the gospel of luke.",
+        "Alignment": [
+            [[39,47],[39,44]],
+            [[122,134],null]
+        ],
+        "Batch": 1,
+        "ID_from_batch": 4,
+        "Rating": 100,
+        "System": "systems/con_simplification.txt"
+    },
+    {
+        "ID": 8,
+        "Original": "Giardia lamblia (synonymous with Lamblia intestinalis and Giardia duodenalis) is a flagellated protozoan parasite that colonises and reproduces in the small intestine, causing giardiasis.",
+        "Simplification": "Giardia lamblia also known as Lamblia intestinalis and Giardia duodenalis is a parasite with parts that goes into the small intestine causing infection.",
+        "Alignment": [
+            [[16,32],[16,29]],
+            [[83,104],null],
+            [null,[88,98]],
+            [[119,146],[104,113]],
+            [[176,186],[142,151]]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 27,
+        "Rating": 90,
+        "System": "systems/asset.test.simp"
+    },
+    {
+        "ID": 9,
+        "Original": "The PAD called for the resignation of the governments of Thaksin Shinawatra, Samak Sundaravej and Somchai Wongsawat, whom the PAD accused of being proxies for Thaksin.",
+        "Simplification": "The pad called for the resignation of the government of thaksin shinawatra , samak sundaravej and somchai wongsawat , whom the pad accused of being proxies for thaksin.",
+        "Alignment": [
+            [[42,53],[42,52]]
+        ],
+        "Batch": 3,
+        "ID_from_batch": 6,
+        "Rating": 82,
+        "System": "systems/SBMT-SARI.lower"
+    },
+    {
+        "ID": 14,
+        "Original": "Historically, the sensations of itch and pain have not been considered to be independent of each other until recently, where it was found that itch has several features in common with pain, but exhibits notable differences.",
+        "Simplification": "Historically, the sensations of itch and pain have not been considered to be independent of each other until recently, where it was found that itch is similar to pain, but has some differences.",
+        "Alignment": [
+            [[148,151],[148,161]],
+            [[194,210],[172,180]]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 14,
+        "Rating": 90,
+        "System": "systems/muss_untokenized.txt"
+    },
+    {
+        "ID": 11,
+        "Original": "Military career Donaldson enlisted in the Australian Army on 18 June 2002.",
+        "Simplification": "Military career donaldson joined the australian army on 18 june 2002.",
+        "Alignment": [
+            [[26,37],[26,32]]
+        ],
+        "Batch": 1,
+        "ID_from_batch": 13,
+        "Rating": 84,
+        "System": "systems/access.txt"
+    },
+    {
+        "ID": 12,
+        "Original": "The tarantula, the trickster character, spun a black cord and, attaching it to the ball, crawled away fast to the east, pulling on the cord with all his strength.",
+        "Simplification": "The spider , the trickster character, made a black cord and attached to the ball, crawled away fast to the east, pulling on the cord , with all his strength.",
+        "Alignment": [
+            [[4,13],[4,10]],
+            [[40,44],[38,42]],
+            [[63,75],[60,68]]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 24,
+        "Rating": 83,
+        "System": "systems/PBMT-R.lower"
+    },
+    {
+        "ID": 13,
+        "Original": "Barneville-la-Bertran is a commune in the Calvados department in the Basse-Normandie region in northwestern France.",
+        "Simplification": "Barneville-la-Bertran is a community in the Calvados department in Basse-Normandie region located in northwestern France.",
+        "Alignment": [
+            [[27,34],[27,36]],
+            [[65,68],null],
+            [[92,94],[90,100]]
+        ],
+        "Batch": 3,
+        "ID_from_batch": 8,
+        "Rating": 87,
+        "System": "systems/asset.test.simp"
+    },
+    {
+        "ID": 14,
+        "Original": "Historically, the sensations of itch and pain have not been considered to be independent of each other until recently, where it was found that itch has several features in common with pain, but exhibits notable differences.",
+        "Simplification": "Historically, the sensations of itch and pain have not been considered to be independent of each other until recently, where it was found that itch is similar to pain, but has some differences.",
+        "Alignment": [
+            [[148,151],[148,161]],
+            [[194,210],[172,180]]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 14,
+        "Rating": 90,
+        "System": "systems/muss_untokenized.txt"
+    },
+    {
+        "ID": 15,
+        "Original": "One side of the armed conflicts is composed mainly of the Sudanese military and the Janjaweed, a Sudanese militia group recruited mostly from the Afro-Arab Abbala tribes of the northern Rizeigat region in Sudan.",
+        "Simplification": "One side of the armed conflicts is made mainly of the sudanese military and the janjaweed , a rebel group recruited mostly from the abbala tribes of the northern rizeigat region in sudan.",
+        "Alignment": [
+            [[35,43],[35,39]],
+            [[97,113],[94,99]],
+            [[146,155],null]
+        ],
+        "Batch": 1,
+        "ID_from_batch": 0,
+        "Rating": 88,
+        "System": "systems/transformer_w_split.txt"
+    },
+    {
+        "ID": 16,
+        "Original": "George Frideric Handel also served as Kapellmeister for George, Elector of Hanover (who eventually became George I of Great Britain).",
+        "Simplification": "George frideric handel also served as kapellmeister for george , elector of hanover , who later became george i of great britain.",
+        "Alignment": [
+            [[88,98],[90,95]]
+        ],
+        "Batch": 1,
+        "ID_from_batch": 5,
+        "Rating": 90,
+        "System": "systems/access.txt"
+    },
+    {
+        "ID": 17,
+        "Original": "On October 14, 1960, Presidential candidate John F. Kennedy proposed the concept of what became the Peace Corps on the steps of Michigan Union.",
+        "Simplification": "On October 14, 1960, Presidential candidate John F. Kennedy suggested the idea of what would later become the Peace Corps on the steps of Michigan Union.",
+        "Alignment": [
+            [[60,68],[60,69]],
+            [[73,80],[74,78]],
+            [[89,95],[87,105]]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 25,
+        "Rating": 84,
+        "System": "systems/asset.test.simp"
+    },
+    {
+        "ID": 18,
+        "Original": "These ideally provide excellent habitat for chinkara, hog deer and blue bull.",
+        "Simplification": "These are good places to live for chinkara, hog deer and blue bull.",
+        "Alignment": [
+            [[6,21],[6,14]],
+            [[22,39],[15,29]]
+        ],
+        "Batch": 1,
+        "ID_from_batch": 16,
+        "Rating": 95,
+        "System": "systems/T5.txt"
+    },
+    {
+        "ID": 19,
+        "Original": "The island chain forms part of the Hebrides, separated from the Scottish mainland and from the Inner Hebrides by the stormy waters of the Minch, the Little Minch and the Sea of the Hebrides.",
+        "Simplification": "Hebrides are an island chain separated from the Scottish mainland and from the Inner Hebrides by the Minch waters little Minch and the sea of the hebrides.",
+        "Alignment": [
+            [[0,44],[0,28]],
+            [[117,123],null],
+            [[124,143],[101,113]],
+            [[145,148],null]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 13,
+        "Rating": 84,
+        "System": "systems/asset.test.simp"
+    },
+    {
+        "ID": 20,
+        "Original": "The singles from the album included \"By the Way\", \"The Zephyr Song\", \"Ca n't Stop\", \"Dosed\" and \"Universally Speaking\".",
+        "Simplification": "Songs on the album include \"By the Way\", \"The Zephyr Song\", \"Can't Stop\", \"Dosed\" and \"Universally Speaking\".",
+        "Alignment": [
+            [[0,16],[0,8]],
+            [[27,35],[19,26]],
+            [[70,76],[61,66]]
+        ],
+        "Batch": 1,
+        "ID_from_batch": 14,
+        "Rating": 90,
+        "System": "systems/asset.test.simp"
+    },
+    {
+        "ID": 21,
+        "Original": "He served as the prime minister of Egypt between 1945 and 1946 and again from 1946 and 1948.",
+        "Simplification": "He was Prime Minister of Egypt twice, first from 1945 to 1946, and then again in 1948.",
+        "Alignment": [
+            [[3,16],[3,6]],
+            [null,[31,43]],
+            [[41,62],[44,61]],
+            [null,[67,71]],
+            [[73,91],[78,85]]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 15,
+        "Rating": 95,
+        "System": "systems/muss_untokenized.txt"
+    },
+    {
+        "ID": 22,
+        "Original": "The Prime Minister stays in office only as long as he or she retains the support of the lower house.",
+        "Simplification": "The Prime Minister stays in office only as long as he or she has the support of the House of Commons.",
+        "Alignment": [
+            [[61,68],[61,64]],
+            [[88,99],[84,100]]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 21,
+        "Rating": 90,
+        "System": "systems/T5.txt"
+    },
+    {
+        "ID": 23,
+        "Original": "During an interview, Edward Gorey mentioned that Bawden was one of his favorite artists, lamenting the fact that not many people remembered or knew about this fine artist.",
+        "Simplification": "During an interview, producer edward gorey said that bawden was one of his favorite artists, and said that not many people remembered or knew about this fine artist.",
+        "Alignment": [
+            [[21,33],[21,42]],
+            [[34,43],[43,47]],
+            [[89,107],[93,101]]
+        ],
+        "Batch": 3,
+        "ID_from_batch": 4,
+        "Rating": 88,
+        "System": "systems/con_simplification.txt"
+    },
+    {
+        "ID": 24,
+        "Original": "Alternative views on the subject have been proposed throughout the centuries (see below), but all were rejected by mainstream Christian bodies.",
+        "Simplification": "Other views on the subject have been proposed in the centuries ( see below ) , but all were turned down by mainstream christian bodies.",
+        "Alignment": [
+            [[0,11],[0,5]],
+            [[52,62],[46,48]],
+            [[103,111],[92,103]]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 10,
+        "Rating": 96,
+        "System": "systems/SBMT-SARI.lower"
+    },
+    {
+        "ID": 25,
+        "Original": "In return, Rollo swore fealty to Charles, converted to Christianity, and undertook to defend the northern region of France against the incursions of other Viking groups.",
+        "Simplification": "In return, rollo swore fealty to charles , converted to christianity , and set out to defend the north of france from the raids of other viking groups.",
+        "Alignment": [
+            [[73,82],[75,82]],
+            [[97,112],[97,102]],
+            [[123,130],[113,117]],
+            [[135,145],[122,127]]
+        ],
+        "Batch": 3,
+        "ID_from_batch": 2,
+        "Rating": 88,
+        "System": "systems/SBMT-SARI.lower"
+    },
+    {
+        "ID": 26,
+        "Original": "This was demonstrated in the Miller-Urey experiment by Stanley L. Miller and Harold C. Urey in 1953.",
+        "Simplification": "This was first shown in the miller-urey experiment in 1953 by stanley l. miller and harold c. urey.",
+        "Alignment": [
+            [[9,21],[9,20]],
+            [[92,99],[51,58]]
+        ],
+        "Batch": 1,
+        "ID_from_batch": 1,
+        "Rating": 88,
+        "System": "systems/con_simplification.txt"
+    },
+    {
+        "ID": 27,
+        "Original": "In late 2004, Suleman made headlines by cutting Howard Stern's radio show from four Citadel stations, citing Stern's frequent discussions regarding his upcoming move to Sirius Satellite Radio.",
+        "Simplification": "At the end of 2004, Suleman made headlines by cutting Howard Stern's radio show from four Citadel stations, saying that Stern's frequent discussions about his upcoming move to Sirius Satellite Radio were the reason why.",
+        "Alignment": [
+            [[0,7],[0,13]],
+            [[102,108],[108,119]],
+            [[138,147],[149,154]],
+            [null,[199,218]]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 22,
+        "Rating": 90,
+        "System": "systems/asset.test.simp"
+    },
+    {
+        "ID": 28,
+        "Original": "On June 24 1979 (the 750th anniversary of the village), Glinde received its town charter.",
+        "Simplification": "On june 24 1979 , on the 750th anniversary of the village , glinde became a town.",
+        "Alignment": [
+            [[17,20],[18,24]],
+            [[63,88],[67,80]]
+        ],
+        "Batch": 1,
+        "ID_from_batch": 10,
+        "Rating": 85,
+        "System": "systems/access.txt"
+    },
+    {
+        "ID": 29,
+        "Original": "The term dorsal refers to anatomical structures that are either situated toward or grow off that side of an animal.",
+        "Simplification": "The term dorsal refers to the parts of the body that are on or grow off that side of an animal.",
+        "Alignment": [
+            [[26,47],[26,47]],
+            [[57,63],null],
+            [[64,79],[57,59]]
+        ],
+        "Batch": 2,
+        "ID_from_batch": 29,
+        "Rating": 90,
+        "System": "systems/muss_untokenized.txt"
+    }
+]
