@@ -1,8 +1,26 @@
-.instructions > .card {
+/* Highlighting Words to Indiate Yes/No */
+.yes-ans {
+    background-color: #198754;
+    color: white;
+}
+
+.no-ans {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Overall Container */
+.instructions>.card {
     padding: 16px;
     padding-top: 32px;
 }
 
+.container>.card {
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* Quality Question Examples */
 .card-ex {
     margin: 32px !important;
     margin-bottom: 0 !important;
@@ -11,10 +29,9 @@
     align-self: center;
 }
 
+/* Error Question Examples */
 .card-err {
     margin: 0 32px !important;
-    /* max-width: 800px; */
-    /* align-self: center; */
 }
 
 .card-err .card-body {
@@ -29,25 +46,17 @@
     padding: 0;
 }
 
-.yes-ans {
-    background-color: #198754;
-    color: white;
+/* Final Overview Examples */
+.card-example {
+    margin: 0 32px !important;
 }
 
-.no-ans {
-    background-color: #dc3545;
-    color: white;
-}
-
-.container > .card {
-    max-width: 1000px;
-    margin: auto;
-}
-
+/* Image container */
 .img-cont {
     text-align: center;
 }
-.img-cont > img {
-    width:-webkit-fill-available;
-    max-width:650px;
+
+.img-cont>img {
+    width: -webkit-fill-available;
+    max-width: 650px;
 }
